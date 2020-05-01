@@ -69,12 +69,24 @@ wsServer.on('request', (request) => {
                         position: [0,0]
                     }
                     
-                    var response = { 
-                        type: messageTypes.USER_JOINED,
-                        data: removeRole(users)
-                    }
+                    // var response = { 
+                    //     type: messageTypes.USER_JOINED,
+                    //     users: removeRole(users),
+                    //     user: users[userId]
+                    // }
                     console.log(response)
-                    sendMessage(clients, JSON.stringify(response))
+
+                    // Send message to clients 
+                    Object.keys(clients).map((client) => {
+                        var response = { 
+                            type: messageTypes.USER_JOINED,
+                            users: removeRole(users),
+                            user: users[userId]
+                        }
+                        clients[client].sendUTF(JSON.stringify(response))
+                    })
+
+                    // sendMessage(clients, JSON.stringify(response))
                     break;
                 
                 case messageTypes.USER_LEFT:
@@ -82,7 +94,7 @@ wsServer.on('request', (request) => {
                     delete users[message.userID]
                     var response = {
                         type: messageTypes.USER_LEFT,
-                        data: removeRole(users)
+                        users: removeRole(users)
                     }
                     sendMessage(clients, JSON.stringify(response))
                     break
