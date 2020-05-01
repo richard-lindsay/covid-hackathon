@@ -3,10 +3,12 @@ import Canvas from '../Canvas/Canvas'
 import SideBar from '../SideBar/SideBar'
 import * as Styled from './styles.js'
 
-const Game = ({currentUsers}) => {
+const Game = ({currentUsers, username, client}) => {
+	console.log(username);
+	
 	return ( 
 		<Styled.Wrapper>
-			<Canvas />
+			<Canvas currentUsers={currentUsers} username={username} client={client} />
 			<SideBar currentUsers={currentUsers} /> 
 		</Styled.Wrapper>
 	)

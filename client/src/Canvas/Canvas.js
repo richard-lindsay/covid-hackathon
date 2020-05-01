@@ -5,11 +5,17 @@ import * as Styled from './styles.js'
 class Canvas extends Component {
 	constructor(props){
 		super(props)
-		this.state = { 
-			x: 0,
-			y: 0
-		}
+		this.username=this.props.username
+		this.me= this.props.currentUsers.find(user => {
+			console.log(this.props.currentUsers);
+			
+			 return user.username === this.props.username})
 
+		this.state = { 
+			x: this.me && this.me.position[0] ,
+			y: this.me && this.me.position[1]
+		}
+	
 	}
 
 	componentDidMount() {
@@ -18,52 +24,44 @@ class Canvas extends Component {
 		this.ctx = ctx
 		this.canvas=canvas
 		const image = this.refs.image
-		window && window.addEventListener("keydown", this.moveSomething, false);
+		window && window.addEventListener("keydown", this.moveMyself, false);
 
-		image.onload = () => {
-			ctx.drawImage(image, 0, 0, 300, 150)
-		}
+		// image.onload = () => {
+		// 	ctx.drawImage(image, 0, 0, 300, 150)
+		// }
 		ctx.fillRect(this.state.x, this.state.y, 10, 10)
 
 	}
 
- moveSomething = (e) => {
+ moveMyself = (e) => {
 	 e.preventDefault()
-	console.log(this.state);
-	
+	const client = this.props.client
 	switch(e.keyCode) {
 		case 37:
 			this.canvas.width = this.canvas.width;
-
-				this.setState({x: this.state.x - 5})
-				this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
-				break;
+			this.setState({x: this.state.x - 5})
+			this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
+			client.send({})
+			break;
 		case 38:
-				// up key pressed
-				this.canvas.width = this.canvas.width;
-
-				this.setState({y: this.state.y - 5})
-				this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
-
-
-				break;
+			// up key pressed
+			this.canvas.width = this.canvas.width;
+			this.setState({y: this.state.y - 5})
+			this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
+			break;
 		case 39:
 			this.canvas.width = this.canvas.width;
-
-				// right key pressed
-				this.setState({x: this.state.x + 5})
-				this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
-
-
-				break;
+			// right key pressed
+			this.setState({x: this.state.x + 5})
+			this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
+			break;
 		case 40:
 			this.canvas.width = this.canvas.width;
+			// down key pressed
+			this.setState({y: this.state.y + 5})
+			this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
 
-				// down key pressed
-				this.setState({y: this.state.y + 5})
-				this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
-
-				break;  
+			break;  
 	}   
 }  
 

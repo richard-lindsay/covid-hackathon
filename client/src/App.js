@@ -26,6 +26,10 @@ class App extends Component {
 							{
 								username:'Joe',
 								position: [0,0]
+							},
+							{
+								username: 'Rachel',
+								position: [20,20]
 							}
 						],
             userActivity: [],
@@ -40,14 +44,14 @@ class App extends Component {
 		
 
     logInUser = (username) => {
-				this.setState({username})
+				this.setState({username: username})
 				
         if (username.trim()) {
             const data = { username }
 
             this.setState(
                 {...data},
-                client.send(JSON.stringify({...data, type: 'userevent'}))
+                client.send(JSON.stringify({...data, type: 'userJoined'}))
             )
         }
     }
@@ -58,7 +62,7 @@ class App extends Component {
             username: this.state.username,
             content: text
         }))
-    }
+		}
 
     componentWillMount() {
         client.onopen = () => {
@@ -68,14 +72,15 @@ class App extends Component {
         client.onmessage = (message) => {
             const dataFromServer = JSON.parse(message.data)
             const stateToChange = {}
+console.log(dataFromServer);
 
-            if (dataFromServer.type === "userevent"){
-                stateToChange.currentUsers = Object.values(dataFromServer.data.users)
-            } else if(dataFromServer.type === "contentchange") {
+            if (dataFromServer.type === "userJoined" && dataFromServer.data){
+                stateToChange.currentUsers = dataFromServer.data
+            } else if(message.type === "contentchange") {
                 stateToChange.text = dataFromServer.data.editorContent || contentDefaultMessage
-            }
+            } 
 
-            stateToChange.userActivity = dataFromServer.data.userActivity
+
             this.setState({ ...stateToChange })
         }
     }
@@ -88,8 +93,8 @@ class App extends Component {
 				<React.Fragment>
 					<Header userName={username} role={role} />
 					<div className="container-fluid">
-						{!username 
-						? <Game currentUsers={currentUsers} /> 
+						{username 
+						? <Game username={username} currentUsers={currentUsers} client={client} /> 
 						: <Login logInUser={this.logInUser} />}
 					</div>
 				</React.Fragment>
