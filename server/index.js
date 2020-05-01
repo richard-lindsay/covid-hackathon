@@ -72,7 +72,7 @@ wsServer.on('request', (request) => {
                     // var response = { 
                     //     type: messageTypes.USER_JOINED,
                     //     users: removeRole(users),
-                    //     user: users[userId]
+                    //     currentUser: users[userId]
                     // }
                     console.log(response)
 
@@ -81,7 +81,7 @@ wsServer.on('request', (request) => {
                         var response = { 
                             type: messageTypes.USER_JOINED,
                             users: removeRole(users),
-                            user: users[userId]
+                            currentUser: users[userId]
                         }
                         clients[client].sendUTF(JSON.stringify(response))
                     })
