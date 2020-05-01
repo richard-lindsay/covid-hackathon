@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { w3cwebsocket as W3CWebSocket} from 'websocket'
 
-import Identicon from 'react-identicons';
-
+import Login from './Login/Login'
+import Header from './Header/Header'
+import Game from './Game/Game'
 import { Navbar, NavbarBrand, UncontrolledTooltip } from 'reactstrap'
 
 import Editor from 'react-medium-editor';
@@ -17,17 +18,30 @@ class App extends Component {
     constructor(props){
         super(props)
         this.state = {
-            currentUsers: [],
+						currentUsers: [
+							{
+								username: 'Rich',
+								position: [0,0]
+							},
+							{
+								username:'Joe',
+								position: [0,0]
+							}
+						],
             userActivity: [],
-            username: null,
+						username: null,
+						role: null,
             text: '',
-            players: []
-        }
-    }
+				}
+				
+				this.logInUser = this.logInUser.bind(this)
 
-    logInUser = () => {
-        const username = this.username.value
+		}
+		
 
+    logInUser = (username) => {
+				this.setState({username})
+				
         if (username.trim()) {
             const data = { username }
 
@@ -66,53 +80,22 @@ class App extends Component {
         }
     }
 
-    componentDidMount() {
-      const canvas = this.refs.canvas
-      const ctx = canvas.getContext("2d")
-  
-      ctx.fillRect(20, 20, 10, 10)
-      
-    }
-
-    showLoginSection = () => (
-        <div className="account">
-        <div className="account__wrapper">
-          <div className="account__card">
-            <div className="account__profile">
-              <Identicon className="account__avatar" size={64} string="randomness" />
-              <p className="account__name">Hello, user!</p>
-              <p className="account__sub">Join to edit the document</p>
-            </div>
-            <input name="username" ref={(input) => { this.username = input; }} className="form-control" />
-            <button type="button" onClick={() => this.logInUser()} className="btn btn-primary account__btn">Join</button>
-          </div>
-        </div>
-      </div>
-    )
-
-    showEditorSection = () => (
-        <div className="main-content">
-          <canvas ref="canvas" width={500} height={500} />
-        </div>
-      )
-
-      render() {
-        const {
-          username
-        } = this.state;
-        return (
-          <React.Fragment>
-            <Navbar color="light" light>
-              <NavbarBrand href="/">Real-time document editor</NavbarBrand>
-            </Navbar>
-            <div className="container-fluid">
-              {username ? this.showEditorSection() : this.showLoginSection()}
-              {/* { this.showEditorSection() } */}
-            </div>
-          </React.Fragment>
-        );
-      }
-    }
+		render() {
+			const {
+				username, role, currentUsers
+			} = this.state;
+			return (
+				<React.Fragment>
+					<Header userName={username} role={role} />
+					<div className="container-fluid">
+						{!username 
+						? <Game currentUsers={currentUsers} /> 
+						: <Login logInUser={this.logInUser} />}
+					</div>
+				</React.Fragment>
+			);
+		}
+	}
 
 
 export default App;
