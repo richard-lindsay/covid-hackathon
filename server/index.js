@@ -60,6 +60,7 @@ wsServer.on('request', (request) => {
             switch(message.type){
                 case messageTypes.USER_JOINED:
                     // add new user to list and return list of users 
+                    // {"type":"userJoined", "username":"test"}
                     users[userId] = {
                         username: message.username,
                         role: 'unassigned',
@@ -88,7 +89,7 @@ wsServer.on('request', (request) => {
             
                 case messageTypes.USER_MOVED:
                     // update users position before returning all users back 
-
+                    // {"type":"userMoved", "position":[10,10]}
                     users[userId].position = message.position
                     var response = {
                         type: messageTypes.USER_MOVED,
