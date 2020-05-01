@@ -1,0 +1,54 @@
+Customer flow 
+ > Username screen 
+ > Pre-game lobby [G_S_PREGAME]
+ > Start Game [G_S_START]
+ > Give out roles 
+ > Mafia Loop starts 
+    > Night time - murderer [G_S_N_MAFIA_CHOOSE]
+    > Night time - murderer [G_S_N_MAFIA_RETURN]
+    > Night time - doctor [G_S_N_DOC_CHOOSE]
+    > Night time - doctor [G_S_N_DOC_RETURN]
+    > Night time - detective [G_S_N_DET_CHOOSE]
+    > Night time - detective [G_S_N_DET_RETURN]
+    > Day time discussion [G_S_D_DIS]
+    > Day time lynch [G_S_D_LYNCH]
+    > Night time begins [G_S_N_BEGINS]
+ > Game over screen [G_S_OVER]
+
+How to kill someone
+ > All mafia members highlight the same person, and press kill
+
+
+
+Server user object
+
+{
+    userId, 
+    username, 
+    role,
+    colour,
+    status,
+    position
+}
+
+Messages
+    UserJoined
+    UserLeft 
+
+    UserMoved
+
+    UserKilled
+    UserDetected
+    UserSaved 
+
+    NightAll
+    NightMafia
+    NightDoc
+    NightDet
+
+Message object 
+{
+    type,
+    userId, 
+    data: {}
+}
