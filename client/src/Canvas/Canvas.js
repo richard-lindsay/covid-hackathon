@@ -96,7 +96,7 @@ const Canvas = ({users, currentUser, client}) => {
 
 	return (
 		<Styled.CanvasContainer>
-			<Styled.Canvas ref={canvasRef} />
+			<Styled.Canvas ref={canvasRef} night={gameState.includes('G_S_N')} />
 			<img src={img} ref={imageRef}  style={{display: 'none'}}/>
 		</Styled.CanvasContainer>
 	)
@@ -108,7 +108,8 @@ const mapStateToProps = state => {
 
   return {
 		users: state.users,
-		currentUser: state.currentUser
+		currentUser: state.currentUser,
+		gameState: state.gameState
   };
 };
 export default connect(mapStateToProps)(Canvas)

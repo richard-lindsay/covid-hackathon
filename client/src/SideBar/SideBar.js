@@ -49,10 +49,6 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 					<p>When you're ready: <button onClick={handleLynch}>{template['lynch'].button}</button></p>
 				</> 
 				 }
-				 {gameState.toLowerCase().includes(currentUser.role.substring(0,3))  && 
-					gameState.includes('RETURN') &&
-						<h5> Hurry back to where you started so they don't notice you moved!</h5>
-				 }
 			<h5>These are the people currently in your village: </h5>
 			<Styled.UserList>
 				{users.map((user) => {
