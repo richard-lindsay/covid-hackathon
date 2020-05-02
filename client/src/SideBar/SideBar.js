@@ -39,11 +39,14 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 				{users.map((user) => {
 					const isMe = me && user.username === me
 					const isAlive = user.status === 'alive'
-					return <Styled.UserItem key={user.username} alive={isAlive} isMe={isMe} backgroundColor={user.color}> {!isAlive && `💀`}{user.username}{!isAlive && `💀`}</Styled.UserItem>
+					return (
+					<Styled.UserItem key={user.username} alive={isAlive} isMe={isMe} >
+						 {!isAlive && `💀`}{user.username}  <Styled.Circle backgroundColor={user.color}/> {!isAlive && `💀`}</Styled.UserItem>
+						 )
 				})}
 
 
-				{currentUser.role === 'unassigned'
+				{gameState === 'G_S_PREGAME' 
 				&& users.length > 3 &&
 				<div>
 					Everyone here? 

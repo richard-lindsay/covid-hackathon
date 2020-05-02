@@ -19,8 +19,7 @@ export const UserItem = styled.li `
 	display:flex;
 	font-size: 20px;
 	justify-content: center;
-	background: ${props => `radial-gradient(white, white, ${props.backgroundColor}, white, white)`};
-
+	align-items: center;
 	${props => 
 		!props.alive && css`
 			border: 3px solid red;
@@ -36,4 +35,12 @@ export const UserItem = styled.li `
 
 export const StartButton = styled.button `
 	
+`
+
+export const Circle = styled.div `
+	background: ${props => props.backgroundColor};
+	border-radius: 50%;
+	width: 20px;
+	height: 20px;
+	margin-left: 3px;
 `

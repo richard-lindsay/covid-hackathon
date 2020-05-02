@@ -32,7 +32,7 @@ const Canvas = ({users, currentUser, client}) => {
 		users.forEach(user => {
 			ctx.fillStyle = user.color;
 			ctx.fillRect(user.position[0], user.position[1], 10, 10)
-			if (user.username === currentUser.closestUser) {
+			if (user.userId === currentUser.closestUser) {
 				ctx.beginPath();
 				ctx.strokeStyle = "green";
 				ctx.rect(user.position[0], user.position[1], 10, 10)
