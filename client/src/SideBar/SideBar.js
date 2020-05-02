@@ -56,7 +56,7 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 					const isAlive = user.status === 'alive'
 					const closest = user.userId === currentUser.closestUser
 					return (
-					<Styled.UserItem key={user.username} alive={isAlive} isMe={isMe} closest={closest}>
+					<Styled.UserItem key={user.userId} alive={isAlive} isMe={isMe} closest={closest}>
 						 {!isAlive && `💀`}{user.username}{!isAlive && `💀`}<Styled.Circle backgroundColor={user.color}/> </Styled.UserItem>
 						 )
 				})}
