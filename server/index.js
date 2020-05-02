@@ -180,9 +180,7 @@ wsServer.on('request', (request) => {
 
 
 const sendUpdate = (messageType) => {
-    console.log(users)
     Object.keys(clients).map((client) => {
-        console.log("Current User: ", users[client] )
         var response = {
             type: messageType,
             users: removeRole(users),
