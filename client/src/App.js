@@ -57,7 +57,7 @@ class App extends Component {
 
 		}
 
-		showMurderModal = (type, victim) => {
+		showMurderModal = (type, victim = '') => {
 			let message
 			switch (type) {
 				case 'villagerKilled' :
@@ -96,7 +96,7 @@ class App extends Component {
 						} else if (dataFromServer.type === 'detectiveCheck') {
 								this.triggerShowDetectiveModal(dataFromServer.result)
 						} else if (dataFromServer.type.toLowerCase().includes('killed')) {
-							setTimeout(()=> this.showMurderModal(dataFromServer.type, dataFromServer.victim), 3000)
+							this.showMurderModal(dataFromServer.type, dataFromServer.victim || '')
 						}
 						else if(message.type === "contentchange") {
 							stateToChange.text = dataFromServer.data.editorContent || contentDefaultMessage
