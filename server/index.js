@@ -69,6 +69,7 @@ wsServer.on('request', (request) => {
                     // add new user to list and return list of users 
                     // {"type":"userJoined", "username":"test"}
                     users[userId] = {
+                        userId,
                         username: message.username,
                         role: 'unassigned',
                         color: getRandomColor(),
@@ -85,6 +86,7 @@ wsServer.on('request', (request) => {
                     // update users position before returning all users back 
                     // {"type":"userMoved", "position":[10,10]}
                     users[userId].position = message.position
+                    users[userId].closestUser = closestUser(userId, users)
                     sendUpdate(messageTypes.USER_MOVED)
                     break
                 
@@ -99,7 +101,6 @@ wsServer.on('request', (request) => {
                     // Set the game state from G_S_PREGAME to G_S_START and give out roles
                     // {"type": "gameStart"}
 
-                    closestUser(userId, users)
                     if(gameState === gameStates.G_S_PREGAME){
                         
                         Object.entries(assignRoles(users)).map(entry => {

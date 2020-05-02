@@ -1,40 +1,16 @@
 module.exports = (userId, users) => {
-
-    const testUsers = {
-        "1": {
-            username: "test",
-            role: 'unassigned',
-            color: '#fff',
-            status: 'alive',
-            position: [0,0],
-            closestUser: ""
-        },
-        "2": {
-            username: "test",
-            role: 'unassigned',
-            color: '#fff',
-            status: 'alive',
-            position: [50,50],
-            closestUser: ""
-
-        },
-        "3": {
-            username: "test",
-            role: 'unassigned',
-            color: '#fff',
-            status: 'alive',
-            position: [20,20],
-            closestUser: ""
-        }
-    }    
-    
+   
     console.log("Iterate through other users and return closest based off manhatten distance ")
 
     const id = "1"
-    const data = testUsers[id]
+    const data = users[userId]
     const position = data.position
 
-    const otherUsers = Object.entries(testUsers).filter(it => it[0] !== id)
+    const otherUsers = Object.entries(users).filter(it => it[0] !== userId)
+
+    if (otherUsers.length === 0){
+        return ""
+    }
 
     const userDistances = {}
     otherUsers.forEach(user => {
