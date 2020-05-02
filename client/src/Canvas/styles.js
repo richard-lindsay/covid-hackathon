@@ -9,7 +9,7 @@ export const Image  = styled.img`
 export const Canvas = styled.canvas `
 	height: 110%;
 	width: 100%;
-	background: url(${props.night ? night :img}) repeat 0 0;
+	background: url(${props => props.night ? night :img}) repeat 0 0;
 	background-size: cover;
 `
 
