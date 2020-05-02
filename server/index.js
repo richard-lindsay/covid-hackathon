@@ -166,18 +166,26 @@ wsServer.on('request', (request) => {
                         gameState = gameStates.G_S_N_DET_RETURN
                         sendUpdate(messageTypes.DETECTIVE_CHECK)
 
-                        var millisecondsToWait = 5000;
                         setTimeout(function() {
                             // kill off player if not saved 
                             detectPlayer()
-                            killPlayer()
+
+                            setTimeout(function() {
+                                killPlayer()
+                                                            
+                                gameState = gameStates.G_S_DAY
+                                checkEndState()
+
+                                sendUpdate(messageTypes.DETECTIVE_CHECK)
+
+                            }, 3000)
                             // shows detective role of player he chose (send only detetive message with userId and if mafia)
                             
-                            gameState = gameStates.G_S_DAY
-                            checkEndState()
+                            // gameState = gameStates.G_S_DAY
+                            // checkEndState()
 
-                            sendUpdate(messageTypes.DETECTIVE_CHECK)
-                        }, millisecondsToWait);
+                            // sendUpdate(messageTypes.DETECTIVE_CHECK)
+                        }, 5000);
 
                     } else {
                         console.log("Message received at wrong game state", message.type)
