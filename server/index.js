@@ -7,6 +7,7 @@ const sendMessage = require('./src/functions/sendMessage')
 const handleMessage = require('./src/functions/handleMessage')
 const removeRole = require('./src/functions/removeRole')
 const assignRoles = require('./src/functions/assignRoles')
+const closestUser = require('./src/functions/closestUser')
 
 // Constants for message types 
 const messageTypes = require('./src/messageTypes')
@@ -71,19 +72,13 @@ wsServer.on('request', (request) => {
                         role: 'unassigned',
                         color: '#fff',
                         status: 'alive',
-                        position: [0,0]
+                        position: [0,0],
+                        closestUser: ""
                     }
                     
                     // Send message to clients 
                     sendUpdate(messageTypes.USER_JOINED)
-
                     break;
-                
-                // case messageTypes.USER_LEFT:
-                //     // remove user from list and return clean list of users 
-                //     delete users[message.userID]
-                //     sendUpdate(messageTypes.USER_LEFT)
-                //     break
             
                 case messageTypes.USER_MOVED:
                     // update users position before returning all users back 
@@ -99,11 +94,11 @@ wsServer.on('request', (request) => {
 
                     break
         
-
-
                 case messageTypes.GAME_START:
                     // Set the game state from G_S_PREGAME to G_S_START and give out roles
                     // {"type": "gameStart"}
+
+                    closestUser(userId, users)
                     if(gameState === gameStates.G_S_PREGAME){
                         
                         Object.entries(assignRoles(users)).map(entry => {
@@ -116,21 +111,28 @@ wsServer.on('request', (request) => {
                     } else {
                         console.log("GAME_START message received in incorrect game state")
                     }
-
-                case messageTypes.USER_DETECTED:
-                    // Show the role of one user. Need to decide if it is shown to everyone or just one person
-
-
                     break
-                case messageTypes.USER_SAVED:
-                    // Force this user to be saved, no matter what happens 
-                    break
-        
+
                 case messageTypes.NIGHT_ALL:
-                    // Set the screen to black for all users
-                    
+                    gameState = gameStates.G_S_NIGHT
+                    sendUpdate(messageTypes.NIGHT_ALL)
+                
+                    // await new Promise(resolve => setTimeout(resolve, 10000));
+
+                    gameState = gameStates.G_S_N_MAFIA_CHOOSE
+                    sendUpdate(messageTypes.NIGHT_MAFIA)
                     break
                 
+                case messageTypes.MAFIA_KILL:
+                    // {"type": "mafiaKill", "closestUser": "1234"}
+
+                    if (gameState === gamestates.G_S_N_MAFIA_CHOOSE){
+                        
+                    } else {
+                        console.log("Message receieved at wrong game state", message.type)
+                    }
+                    break
+
                 case messageTypes.NIGHT_MAFIA:
                     // Set the screen to black for all users except mafia and allow then to choose one person
                     
@@ -147,7 +149,7 @@ wsServer.on('request', (request) => {
                     break
         
                 default: 
-                    console.log('Unknown message type received!')
+                    console.log('Unknown message type received!', message.type)
             }
 
 

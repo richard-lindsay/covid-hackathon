@@ -16,5 +16,10 @@ module.exports = {
     NIGHT_DET: "nightDet",
 
     GAME_START: "gameStart",
-    
+
+    MAFIA_KILL: "mafiaKill",
+    DETECTIVE_CHECK: "detectiveCheck",
+    DOCTOR_SAVE: "doctorSave",
+
+
 }

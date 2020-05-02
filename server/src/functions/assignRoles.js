@@ -30,7 +30,7 @@ module.exports = (users) => {
     let numberofDetectives = 1
     do {
         const chosenPlayer = getRandomInt(userArray.length - 1)
-        if (userArray[chosenPlayer][1].role !== 'mafia' || userArray[chosenPlayer][1].role !== 'doctor'){
+        if (userArray[chosenPlayer][1].role !== 'mafia' && userArray[chosenPlayer][1].role !== 'doctor'){
             userArray[chosenPlayer][1].role  = 'detective'
             numberofDetectives--
         }
