@@ -8,7 +8,6 @@ const Canvas = ({users, currentUser, client}) => {
 	const [myyPosition, setyPosition] = useState(currentUser.position[1])
 
 	const canvasRef = useRef(null)
-	const imageRef = useRef(null)
 	let ctx
 	let canvas
 
@@ -18,9 +17,6 @@ const Canvas = ({users, currentUser, client}) => {
 		ctx = canvas.getContext("2d")
 		window && window.addEventListener("keydown", moveMyself, false);
 		
-		// image.onload = () => {
-		// 	ctx.drawImage(image, 0, 0, 300, 150)
-		// }
 		return () => window.removeEventListener("keydown", moveMyself);
 
 		})

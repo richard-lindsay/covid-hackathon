@@ -4,10 +4,13 @@ import img from './canvas.jpeg';
 export const Wrapper = styled.div`
 	display: flex;
 `
-export const Night = styled.img `
+export const NightContainer = styled.div ` 
 	width: 75%;
-	height: 100vh;
-	background: repeat url(${img}) 0 0;
+`
+export const Night = styled.div `
+	width: 100%;
+	height: 110vh;
+	background: no-repeat url(${img}) 0 0;
 	background-size: contain;
 `
 
