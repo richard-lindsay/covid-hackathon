@@ -10,9 +10,9 @@ const Game = ({ client, shouldBeVisible}) => {
 	}
 	return ( 
 		<Styled.Wrapper>
-			{ shouldBeVisible 
+			{ shouldBeVisible
 			? <Canvas client={client} />
-			: <Styled.Night/>
+			: <Styled.Night />
 
 }
 			<SideBar client={client} handleStartGame={handleStartGame} /> 

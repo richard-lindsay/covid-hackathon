@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {connect} from 'react-redux'
 
-import image from './canvas.jpeg'
 import * as Styled from './styles.js'
 
 const Canvas = ({users, currentUser, client}) => {
@@ -17,7 +16,6 @@ const Canvas = ({users, currentUser, client}) => {
 	useEffect(() => {
 		canvas = canvasRef.current
 		ctx = canvas.getContext("2d")
-		const image = imageRef.current
 		window && window.addEventListener("keydown", moveMyself, false);
 		
 		// image.onload = () => {
@@ -89,7 +87,6 @@ const Canvas = ({users, currentUser, client}) => {
 	return (
 		<Styled.CanvasContainer>
 			<Styled.Canvas ref={canvasRef} />
-			<Styled.Image src={image} ref={imageRef}/>
 		</Styled.CanvasContainer>
 	)
 
