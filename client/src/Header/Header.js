@@ -14,7 +14,7 @@ const Header = ({currentUser, gameState, triggerNightTime}) => {
 					: <span> Hello! Welcome to St George's Village.</span>
 				}
 			</div>
-			{ gameState.includes('G_S_N') && 
+			{ !gameState.includes('G_S_N')  && !gameState.includes('G_S_PREGAME')&& 
 				<Styled.NightButton onClick={triggerNightTime}>Trigger Night Time</Styled.NightButton>
 			}
 			{currentUser.username && 

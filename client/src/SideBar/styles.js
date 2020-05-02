@@ -17,11 +17,14 @@ export const UserItem = styled.li `
 	margin: 5px;
 	width: 33%;
 	display:flex;
+	font-size: 20px;
 	justify-content: center;
+	background: ${props => `radial-gradient(white, white, ${props.backgroundColor}, white, white)`};
 
 	${props => 
 		!props.alive && css`
 			border: 3px solid red;
+			opacity: 0.5;
  		`
 	}
 	${props => 

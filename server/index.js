@@ -3,6 +3,7 @@ const http = require('http')
 
 // Helper functions to clean up main 
 const getUniqueId = require('./src/functions/getUniqueId')
+const getRandomColor = require('./src/functions/generateRandomColor')
 const sendMessage = require('./src/functions/sendMessage')
 const handleMessage = require('./src/functions/handleMessage')
 const removeRole = require('./src/functions/removeRole')
@@ -69,7 +70,7 @@ wsServer.on('request', (request) => {
                     users[userId] = {
                         username: message.username,
                         role: 'unassigned',
-                        color: '#fff',
+                        color: getRandomColor(),
                         status: 'alive',
                         position: [0,0]
                     }
