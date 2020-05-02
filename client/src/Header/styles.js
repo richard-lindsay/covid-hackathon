@@ -7,10 +7,10 @@ export const HeaderContainer = styled.div `
 	padding: 20px;
 	font-family: monospace;
 	font-size: 20px;
-	background-color: #022a92;
+	background-color: midnightblue;
 	justify-content: space-between;
 	color: white;
-	
+
 `
 export const Image = styled.img ` 
 	align-self: center;

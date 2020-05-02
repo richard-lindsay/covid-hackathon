@@ -1,15 +1,17 @@
-import React, {useState} from 'react'
+import React from 'react'
 import Canvas from '../Canvas/Canvas'
 import SideBar from '../SideBar/SideBar'
 import * as Styled from './styles.js'
 
-const Game = ({currentUsers, username, client}) => {
-	console.log(username);
-	
+const Game = ({ client, shouldBeVisible}) => {	
 	return ( 
 		<Styled.Wrapper>
-			<Canvas currentUsers={currentUsers} username={username} client={client} />
-			<SideBar currentUsers={currentUsers} /> 
+			{ shouldBeVisible 
+			? <Canvas client={client} />
+			: <Styled.Night/>
+
+}
+			<SideBar /> 
 		</Styled.Wrapper>
 	)
 

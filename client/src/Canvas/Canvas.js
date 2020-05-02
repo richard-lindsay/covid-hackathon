@@ -1,79 +1,95 @@
-import React, { Component } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import {connect} from 'react-redux'
+
 import image from './canvas.jpeg'
 import * as Styled from './styles.js'
 
-class Canvas extends Component {
-	constructor(props){
-		super(props)
-		this.username=this.props.username
-		this.me= this.props.currentUsers.find(user => {
-			console.log(this.props.currentUsers);
-			
-			 return user.username === this.props.username})
+const Canvas = ({users, currentUser, client, isNight, mafiaTurn, docTurn, detTurn}) => {
+	const [myxPosition, setxPosition] = useState(currentUser.position[0])
+	const [myyPosition, setyPosition] = useState(currentUser.position[1])
 
-		this.state = { 
-			x: this.me && this.me.position[0] ,
-			y: this.me && this.me.position[1]
-		}
-	
-	}
+	const canvasRef = useRef(null)
+	const imageRef = useRef(null)
+	let ctx
+	let canvas
 
-	componentDidMount() {
-		const canvas = this.refs.canvas
-		const ctx = canvas.getContext("2d")
-		this.ctx = ctx
-		this.canvas=canvas
-		const image = this.refs.image
-		window && window.addEventListener("keydown", this.moveMyself, false);
 
+	useEffect(() => {
+		canvas = canvasRef.current
+		ctx = canvas.getContext("2d")
+		const image = imageRef.current
+		window && window.addEventListener("keydown", moveMyself, false);
+		
 		// image.onload = () => {
 		// 	ctx.drawImage(image, 0, 0, 300, 150)
 		// }
-		ctx.fillRect(this.state.x, this.state.y, 10, 10)
+		return () => window.removeEventListener("keydown", moveMyself);
 
-	}
+		})
+	useEffect(() => {
+		canvas.width = canvas.width;
 
- moveMyself = (e) => {
-	 e.preventDefault()
-	const client = this.props.client
+		users.forEach(user => {
+			ctx.beginPath();
+			ctx.rect(user.position[0], user.position[1], 10, 10)
+			ctx.lineWidth = 8;
+			ctx.strokeStyle = 'black';
+			ctx.closePath();
+			ctx.stroke();
+		})
+	}, [users, currentUser])
+
+ const moveMyself = (e) => {
+	e.preventDefault()
 	switch(e.keyCode) {
 		case 37:
-			this.canvas.width = this.canvas.width;
-			this.setState({x: this.state.x - 5})
-			this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
-			client.send({})
+			canvas.width = canvas.width;
+			// left key pressed
+			setxPosition(myxPosition - 5)
+			setyPosition(myyPosition)
+			client.send(JSON.stringify({type: 'userMoved', position: [myxPosition-5, myyPosition]}))
 			break;
 		case 38:
+			canvas.width = canvas.width;
 			// up key pressed
-			this.canvas.width = this.canvas.width;
-			this.setState({y: this.state.y - 5})
-			this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
+			setxPosition(myxPosition)
+			setyPosition(myyPosition - 5)
+			client.send(JSON.stringify({type: 'userMoved', position: [myxPosition, myyPosition - 5]}))
 			break;
 		case 39:
-			this.canvas.width = this.canvas.width;
+			canvas.width = canvas.width;
 			// right key pressed
-			this.setState({x: this.state.x + 5})
-			this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
+			setxPosition(myxPosition + 5)
+			setyPosition(myyPosition)
+			client.send(JSON.stringify({type: 'userMoved', position: [myxPosition + 5, myyPosition]}))
 			break;
 		case 40:
-			this.canvas.width = this.canvas.width;
-			// down key pressed
-			this.setState({y: this.state.y + 5})
-			this.ctx.fillRect(this.state.x, this.state.y, 10, 10)
+			canvas.width = canvas.width;
 
+			// down key pressed
+			setxPosition(myxPosition)
+			setyPosition(myyPosition + 5)
+			client.send(JSON.stringify({type: 'userMoved', position: [myxPosition, myyPosition + 5]}))
 			break;  
 	}   
 }  
 
 
-	render () {
-		return (
-			<Styled.CanvasContainer>
-				<Styled.Canvas ref="canvas" />
-				<Styled.Image src={image} ref='image' />
-			</Styled.CanvasContainer>
-		)
-	}
+	return (
+		<Styled.CanvasContainer>
+			<Styled.Canvas ref={canvasRef} />
+			<Styled.Image src={image} ref={imageRef}/>
+		</Styled.CanvasContainer>
+	)
+
 }
 
-export default Canvas
+
+const mapStateToProps = state => {
+
+  return {
+		users: state.users,
+		currentUser: state.currentUser
+  };
+};
+export default connect(mapStateToProps)(Canvas)
