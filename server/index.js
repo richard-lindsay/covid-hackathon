@@ -69,7 +69,7 @@ wsServer.on('request', (request) => {
                         position: [0,0]
                     }
                     
-                    // var response = { 
+                    // var response = {
                     //     type: messageTypes.USER_JOINED,
                     //     users: removeRole(users),
                     //     currentUser: users[userId]
@@ -148,9 +148,6 @@ wsServer.on('request', (request) => {
             //     json.data = { editorContent, userActivity }
             // }
 
-
-
-            sendMessage(clients, JSON.stringify(json))
         }
     })
 
