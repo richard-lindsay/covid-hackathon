@@ -13,5 +13,8 @@ module.exports = {
     NIGHT_ALL: "nightAll",
     NIGHT_MAFIA: "nightMafia",
     NIGHT_DOC: "nightDoc",
-    NIGHT_DET: "nightDet"
+    NIGHT_DET: "nightDet",
+
+    GAME_START: "gameStart",
+    
 }

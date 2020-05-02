@@ -1,6 +1,18 @@
 const webSocketServer = require('websocket').server
 const http = require('http')
 
+// Helper functions to clean up main 
+const getUniqueId = require('./src/functions/getUniqueId')
+const sendMessage = require('./src/functions/sendMessage')
+const handleMessage = require('./src/functions/handleMessage')
+const removeRole = require('./src/functions/removeRole')
+const assignRoles = require('./src/functions/assignRoles')
+
+// Constants for message types 
+const messageTypes = require('./src/messageTypes')
+const gameStates = require('./src/gameStates')
+
+
 
 // Store a list of clients and connections
 const clients = {}
@@ -8,18 +20,14 @@ const clients = {}
 // Store a list of users and their details
 const users = {}
 
+// Start with pregame state 
+let gameState = gameStates.G_S_PREGAME
+
 // Unneeded variables 
 let editorContent = null
 let userActivity = []
 
-// Helper functions to clean up main 
-const getUniqueId = require('./src/functions/getUniqueId')
-const sendMessage = require('./src/functions/sendMessage')
-const handleMessage = require('./src/functions/handleMessage')
-const removeRole = require('./src/functions/removeRole')
 
-// Constants for message types 
-const messageTypes = require('./src/messageTypes');
 
 // Web socket libraries and setup
 const webSocketServerPort = 8080
@@ -69,24 +77,9 @@ wsServer.on('request', (request) => {
                         position: [0,0]
                     }
                     
-                    // var response = {
-                    //     type: messageTypes.USER_JOINED,
-                    //     users: removeRole(users),
-                    //     currentUser: users[userId]
-                    // }
-                    console.log(response)
-
                     // Send message to clients 
-                    Object.keys(clients).map((client) => {
-                        var response = { 
-                            type: messageTypes.USER_JOINED,
-                            users: removeRole(users),
-                            currentUser: users[userId]
-                        }
-                        clients[client].sendUTF(JSON.stringify(response))
-                    })
+                    sendUpdate(messageTypes.USER_JOINED)
 
-                    // sendMessage(clients, JSON.stringify(response))
                     break;
                 
                 case messageTypes.USER_LEFT:
@@ -96,38 +89,69 @@ wsServer.on('request', (request) => {
                         type: messageTypes.USER_LEFT,
                         users: removeRole(users)
                     }
-                    sendMessage(clients, JSON.stringify(response))
+                    sendUpdate(messageTypes.USER_LEFT)
                     break
             
                 case messageTypes.USER_MOVED:
                     // update users position before returning all users back 
                     // {"type":"userMoved", "position":[10,10]}
                     users[userId].position = message.position
-                    var response = {
-                        type: messageTypes.USER_MOVED,
-                        data: removeRole(users)
-                    }
-                    sendMessage(clients, JSON.stringify(response))
+                    sendUpdate(messageTypes.USER_LEFT)
                     break
                 
                 case messageTypes.USER_KILLED:
+                    // Set killed users state to dead. If number of mafia === 0 end game 
+                    // This needs to be changed to use userId instead of username for obs reasons
+                    // {"type": "userKilled", "username": "test"}
+
                     break
         
+
+
+                case messageTypes.GAME_START:
+                    // Set the game state from G_S_PREGAME to G_S_START and give out roles
+                    // {"type": "gameStart"}
+                    if(gameState === gameStates.G_S_PREGAME){
+                        
+                        Object.entries(assignRoles(users)).map(entry => {
+                            users[entry[0]] = entry[1]
+                        })
+
+                        gameState = gameStates.G_S_START
+
+                        sendUpdate(messageTypes.GAME_START)
+
+                    } else {
+                        console.log("GAME_START message received in incorrect game state")
+                    }
+
                 case messageTypes.USER_DETECTED:
+                    // Show the role of one user. Need to decide if it is shown to everyone or just one person
+
+
                     break
                 case messageTypes.USER_SAVED:
+                    // Force this user to be saved, no matter what happens 
                     break
         
                 case messageTypes.NIGHT_ALL:
+                    // Set the screen to black for all users
+                    
                     break
                 
                 case messageTypes.NIGHT_MAFIA:
+                    // Set the screen to black for all users except mafia and allow then to choose one person
+                    
                     break
                 
                 case messageTypes.NIGHT_DOC:
+                    // Set the screen to black for all users except doctor and allow then to choose one person
+
                     break
         
                 case messageTypes.NIGHT_DET:
+                    // Set the screen to black for all users except detective and allow then to choose one person
+
                     break
         
                 default: 
@@ -165,3 +189,16 @@ wsServer.on('request', (request) => {
         sendMessage(clients, JSON.stringify)
     })
 })
+
+
+const sendUpdate = (messageType) => {
+    Object.keys(clients).map((client) => {
+        var response = {
+            type: messageType,
+            users: removeRole(users),
+            currentUser: users[client],
+            gameState: gameState
+        }
+        clients[client].sendUTF(JSON.stringify(response))
+    })
+}

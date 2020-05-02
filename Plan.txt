@@ -12,7 +12,7 @@ Customer flow
     > Night time - detective [G_S_N_DET_RETURN]
     > Day time discussion [G_S_D_DIS]
     > Day time lynch [G_S_D_LYNCH]
-    > Night time begins [G_S_N_BEGINS]
+    > Night time begins [G_S_NIGHT]
  > Game over screen [G_S_OVER]
 
 How to kill someone
@@ -52,3 +52,43 @@ Message object
     userId, 
     data: {}
 }
+
+
+Game starts and users join [G_S_PREGAME] 
+When ready, one user presses start and updates game state to be started [G_S_START] 
+at this point the roles are given out and users are updated 
+
+Short interlude before first night time (maybe?) for people to see roles
+
+GAME LOOP _______________________________________________________________________________
+Night time begins [G_S_NIGHT], short interlude before Mafia wakes up [G_S_N_MAFIA_CHOOSE]
+
+Once they have chosen, and a user has been killed, they get a set amount of time to return 
+[G_S_N_MAFIA_RETURN] it is then set back to night time [G_S_NIGHT]
+
+If the doctor is alive game state is set to [G_S_N_DOC_CHOOSE] and the doctor can choose to save a life.
+If the doctor is dead, wait a random amount of time before setting back to [G_S_NIGHT]
+
+If the doctor is alive game state is set to [G_S_N_DOC_CHOOSE] and the doctor can choose to save a life.
+If the doctor is dead, wait a random amount of time before setting back to [G_S_NIGHT]
+
+Game state is set to daytime [G_S_D_DIS] and the dead player is revealed
+Discussion takes place amongst members and a player is chosen to be killed. (Need a voting method)
+
+A player is killed and their role is revealed.
+If mafia players === 0 [G_S_OVER] village wins 
+If mafia player >= non-mafia [G_S_OVER] mafia wins
+
+GAME LOOP ________________________________________________________________________________
+
+
+
+
+Messages 
+
+{"type":"userJoined", "username":"test"}
+{"type":"userJoined", "username":"test2"}
+{"type":"userJoined", "username":"test3"}
+{"type":"userJoined", "username":"test4"}
+
+{"type": "gameStart"}
