@@ -8,6 +8,7 @@ import Game from './Game/Game'
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/default.css';
 import './App.css';
+import { Modal } from './Modal/Modal';
 
 const client  = new W3CWebSocket('ws://127.0.0.1:8080')
 const contentDefaultMessage = "Start writing your document here"
@@ -16,10 +17,9 @@ class App extends Component {
     constructor(props){
         super(props)
         this.state = {
-            userActivity: [],
 						username: null,
-						role: null,
-            text: '',
+						message: '',
+						showModal: false
 				}
 				
 				this.logInUser = this.logInUser.bind(this)
@@ -48,6 +48,15 @@ class App extends Component {
         }))
 		}
 
+		triggerShowDetectiveModal= (result) => {
+			const message = `They are ${!result && 'not'} a member of the Mafia.`
+			this.setState({message:message, showModal: true})
+			
+			setTimeout(()=> this.setState({message: null, showModal: false}), 3000)
+
+		}
+
+
     componentWillMount() {
         client.onopen = () => {
             console.log("WebSocket Client Connected")
@@ -65,6 +74,8 @@ class App extends Component {
 							stateToChange.gameState = dataFromServer.gameState
 							this.props.handleUserJoined(stateToChange)
 							this.setState({ ...stateToChange })
+						} else if (dataFromServer.type === 'detectiveCheck') {
+								this.triggerShowDetectiveModal(dataFromServer.result)
 						} else if(message.type === "contentchange") {
 							stateToChange.text = dataFromServer.data.editorContent || contentDefaultMessage
 						} 
@@ -83,6 +94,7 @@ class App extends Component {
 						? <Game shouldBeVisible={shouldBeVisible} client={client} /> 
 						: <Login logInUser={this.logInUser} />}
 					</div>
+					<Modal show={this.state.showModal} message={this.state.message} />
 					</>
 			);
 		}

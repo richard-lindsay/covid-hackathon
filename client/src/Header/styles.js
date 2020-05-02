@@ -7,7 +7,7 @@ export const HeaderContainer = styled.div `
 	padding: 20px;
 	font-family: monospace;
 	font-size: 20px;
-	background-color: midnightblue;
+	background-color: #2ed1f7;
 	justify-content: space-between;
 	color: white;
 
