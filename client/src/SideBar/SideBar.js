@@ -10,7 +10,7 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 				client.send(JSON.stringify({type: 'mafiaKill', toKill: currentUser.closestUser}))
 				break;
 			case 'detective':
-				client.send(JSON.stringify({type: 'detect', toCheck: currentUser.closestUser }))
+				client.send(JSON.stringify({type: 'detectiveCheck', toCheck: currentUser.closestUser }))
 				break;
 			case 'doctor':
 				client.send(JSON.stringify({type: 'doctorSave', toSave: currentUser.closestUser}))
