@@ -4,6 +4,10 @@ import SideBar from '../SideBar/SideBar'
 import * as Styled from './styles.js'
 
 const Game = ({ client, shouldBeVisible}) => {	
+	const handleStartGame = () => {
+		console.log('Starting Game');
+		client.send(JSON.stringify({"type": "gameStart"}))
+	}
 	return ( 
 		<Styled.Wrapper>
 			{ shouldBeVisible 
@@ -11,7 +15,7 @@ const Game = ({ client, shouldBeVisible}) => {
 			: <Styled.Night/>
 
 }
-			<SideBar /> 
+			<SideBar handleStartGame={handleStartGame} /> 
 		</Styled.Wrapper>
 	)
 

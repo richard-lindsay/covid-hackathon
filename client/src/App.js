@@ -53,22 +53,15 @@ class App extends Component {
         }
 
         client.onmessage = (message) => {
+					console.log(message.data);
+					
             const dataFromServer = JSON.parse(message.data)
             const stateToChange = {}
 
-            if (dataFromServer.type === "userJoined" && dataFromServer.users){
+            if (dataFromServer.type && dataFromServer.users){
 							stateToChange.users = dataFromServer.users
 							stateToChange.currentUser = dataFromServer.currentUser
 							this.props.handleUserJoined(stateToChange)
-							this.setState({ ...stateToChange })
-            } else if (dataFromServer.type && dataFromServer.data){
-							stateToChange.users = dataFromServer.data
-							
-							this.props.handleUsersChanged(stateToChange)
-							this.setState({ ...stateToChange })            
-						} else if (dataFromServer.type && dataFromServer.users){
-							stateToChange.users = dataFromServer.users
-							this.props.handleUsersChanged(stateToChange)
 							this.setState({ ...stateToChange })
 						} else if(message.type === "contentchange") {
 							stateToChange.text = dataFromServer.data.editorContent || contentDefaultMessage

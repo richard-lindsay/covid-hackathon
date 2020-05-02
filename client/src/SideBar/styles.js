@@ -30,3 +30,7 @@ export const UserItem = styled.li `
  		`
 	}
 `
+
+export const StartButton = styled.button `
+	
+`

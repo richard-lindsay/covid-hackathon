@@ -2,7 +2,7 @@ import React from 'react'
 import * as Styled from './styles.js'
 import { connect } from 'react-redux'
 
-const SideBar = ({users, currentUser}) => {
+const SideBar = ({users, currentUser, handleStartGame= () => {}}) => {
 	const me = currentUser.username
 	return ( 
 		<Styled.SideBar>
@@ -12,6 +12,16 @@ const SideBar = ({users, currentUser}) => {
 					const isMe = me && user.username === me
 					return <Styled.UserItem alive={user.status === 'alive'} isMe={isMe}> {user.username}</Styled.UserItem>
 				})}
+
+
+				{currentUser.role === 'unassigned' &&
+				<div>
+					Everyone here? 
+					<Styled.StartButton onClick={handleStartGame}>
+						Start Game
+					</Styled.StartButton>
+				</div>
+				}
 			</Styled.UserList>
 		</Styled.SideBar>
 	)
