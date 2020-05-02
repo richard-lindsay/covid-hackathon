@@ -31,6 +31,11 @@ export const UserItem = styled.li `
 			border: 3px solid #022a92;
  		`
 	}
+	${props => 
+		props.closest && css`
+			box-shadow: 0px 0px 5px 3px green;
+		`
+	}
 `
 
 export const StartButton = styled.button `

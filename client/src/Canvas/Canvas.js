@@ -30,13 +30,14 @@ const Canvas = ({users, currentUser, client}) => {
 		canvas.width = canvas.width;
 
 		users.forEach(user => {
+			if (user.status === 'dead') return
 			ctx.fillStyle = user.color;
 			ctx.fillRect(user.position[0], user.position[1], 10, 10)
 			if (user.userId === currentUser.closestUser) {
 				ctx.beginPath();
 				ctx.strokeStyle = "green";
 				ctx.rect(user.position[0], user.position[1], 10, 10)
-				ctx.lineWidth = 2;
+				ctx.lineWidth = 1;
 				ctx.closePath();
 				ctx.stroke();
 				ctx.beginPath();

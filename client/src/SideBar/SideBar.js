@@ -10,10 +10,10 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 				client.send(JSON.stringify({type: 'mafiaKill', toKill: currentUser.closestUser}))
 				break;
 			case 'detective':
-				client.send(JSON.stringify({type: 'detect'}))
+				client.send(JSON.stringify({type: 'detect', toCheck: currentUser.closestUser }))
 				break;
 			case 'doctor':
-				client.send(JSON.stringify({type: 'doctorSave'}))
+				client.send(JSON.stringify({type: 'doctorSave', toSave: currentUser.closestUser}))
 				break;
 			default: 
 	}
@@ -39,8 +39,9 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 				{users.map((user) => {
 					const isMe = me && user.username === me
 					const isAlive = user.status === 'alive'
+					const closest = user.userId === currentUser.closestUser
 					return (
-					<Styled.UserItem key={user.username} alive={isAlive} isMe={isMe} >
+					<Styled.UserItem key={user.username} alive={isAlive} isMe={isMe} closest={closest}>
 						 {!isAlive && `💀`}{user.username}  <Styled.Circle backgroundColor={user.color}/> {!isAlive && `💀`}</Styled.UserItem>
 						 )
 				})}
