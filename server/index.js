@@ -250,7 +250,7 @@ const killPlayer = () => {
     var kill = round["kill"]
     var save = round["save"]
  
-    let messageType = messageType.VILLAGER_KILLED
+    let messageType = messageTypes.VILLAGER_KILLED
     if (kill !== save){
         users[kill].status = "dead"
    
