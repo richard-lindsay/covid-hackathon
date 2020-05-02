@@ -19,9 +19,14 @@ module.exports = (userId, users) => {
         return a[1] < b[1] ? a : b
     })
 
+    if (closestUser[1] > 60 && users[userId].role === "doctor"){
+        return userId
+    }
+    
     if (closestUser[1] > 60){
         return ""
     }
+
     return closestUser[0]
 }
 
