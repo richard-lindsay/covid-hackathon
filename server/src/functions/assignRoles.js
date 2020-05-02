@@ -9,7 +9,7 @@ module.exports = (users) => {
 
     // Set mafia members     
     do {
-        const chosenPlayer = getRandomInt(userArray.length - 1)
+        const chosenPlayer = getRandomInt(userArray.length)
         if (userArray[chosenPlayer][1].role !== 'mafia'){
             userArray[chosenPlayer][1].role  = 'mafia'
             numberOfMafia--
@@ -19,7 +19,7 @@ module.exports = (users) => {
     // Set one doctor 
     let numberofDoctors = 1
     do {
-        const chosenPlayer = getRandomInt(userArray.length - 1)
+        const chosenPlayer = getRandomInt(userArray.length)
         if (userArray[chosenPlayer][1].role !== 'mafia'){
             userArray[chosenPlayer][1].role  = 'doctor'
             numberofDoctors--
@@ -29,7 +29,7 @@ module.exports = (users) => {
     // Set one detective 
     let numberofDetectives = 1
     do {
-        const chosenPlayer = getRandomInt(userArray.length - 1)
+        const chosenPlayer = getRandomInt(userArray.length)
         if (userArray[chosenPlayer][1].role !== 'mafia' && userArray[chosenPlayer][1].role !== 'doctor'){
             userArray[chosenPlayer][1].role  = 'detective'
             numberofDetectives--
@@ -46,5 +46,6 @@ module.exports = (users) => {
 }
 
 const getRandomInt = (max) =>  {
+    console.log("GetRandomInt max", max)
     return Math.floor(Math.random() * Math.floor(max));
   }

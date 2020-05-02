@@ -183,6 +183,22 @@ wsServer.on('request', (request) => {
                         console.log("Message received at wrong game state", message.type)
                     }
                     break
+
+
+                case messageTypes.VILLAGER_LYNCH:
+                    // {"type" = "villagerLynch", "toLynch": "1234"}
+
+                    if(gameState === gameStates.G_S_DAY){
+                        lynchPlayer(message.toLynch)
+                        checkEndState()
+                        // sendUpdate(messageTypes.VILLAGER_LYNCH)
+
+                        gameState = gameStates.G_S_START
+                        sendUpdate(messageTypes.GAME_START)
+                    } else {
+                        console.log("Message received at wrong game state", message.type)
+                    }
+                    break
                 default: 
                     console.log('Unknown message type received!', message.type)
             }
@@ -213,15 +229,46 @@ const sendUpdate = (messageType) => {
     })
 }
 
+const lynchPlayer = (userId) => {
+    users[userId].status = "dead"
+
+    messageType = messageTypes.VILLAGER_KILLED
+    if (users[userId].role === "mafia") {
+        messageType = messageTypes.MAFIA_KILLED
+    } 
+    Object.keys(clients).map((client) => {
+        var response = {
+            type: messageType,
+            victim: users[userId]
+        }
+        clients[client].sendUTF(JSON.stringify(response))
+    })
+}
+
 const killPlayer = () => {
     // ToDo: send message if mafia 
-
     var kill = round["kill"]
     var save = round["save"]
  
+    let messageType = messageType.VILLAGER_KILLED
     if (kill !== save){
         users[kill].status = "dead"
+   
+        if (users[kill].role === "mafia") {
+            mesageType = messageTypes.MAFIA_KILLED
+        }
+
+        Object.keys(clients).map((client) => {
+            var response = {
+                type: messageType,
+                victim: users[kill]
+            }
+            clients[client].sendUTF(JSON.stringify(response))
+        })
+    } else {
+        sendUpdate(messageTypes.NONE_KILLED)
     }
+
 }
 
 const detectPlayer = () => {

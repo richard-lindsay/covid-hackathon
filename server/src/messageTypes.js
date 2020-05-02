@@ -20,8 +20,12 @@ module.exports = {
     MAFIA_KILL: "mafiaKill",
     DETECTIVE_CHECK: "detectiveCheck",
     DOCTOR_SAVE: "doctorSave",
+    VILLAGER_LYNCH: "villagerLynch",
 
     MAFIA_WIN: "mafiaWin",
     VILLAGERS_WIN: "villagersWin",
 
+    VILLAGER_KILLED: "villagerKilled",
+    MAFIA_KILLED: "mafiaKilled",
+    NONE_KILLED: "noneKilled"
 }
