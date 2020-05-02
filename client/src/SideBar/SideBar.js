@@ -18,6 +18,11 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 			default: 
 	}
 	}
+
+	const handleLynch = () => {
+		client.send(JSON.stringify({type: 'villagerLynch', toLynch: currentUser.closestUser}))
+
+	}
 	return ( 
 		<Styled.SideBar>
 			{gameState.toLowerCase().includes(currentUser.role.substring(0,3))  && 
@@ -34,6 +39,20 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 					gameState.includes('RETURN') &&
 						<h5> Hurry back to where you started so they don't notice you moved!</h5>
 				 }
+
+			{gameState.toLowerCase() === 'D_S_DAY'  && 
+				<>
+					<h5> {template['lynch'].start}
+						<br/>
+						{template['lynch'].mid}
+					</h5>
+					<p>When you're ready: <button onClick={handleLynch}>{template['lynch'].button}</button></p>
+				</> 
+				 }
+				 {gameState.toLowerCase().includes(currentUser.role.substring(0,3))  && 
+					gameState.includes('RETURN') &&
+						<h5> Hurry back to where you started so they don't notice you moved!</h5>
+				 }
 			<h5>These are the people currently in your village: </h5>
 			<Styled.UserList>
 				{users.map((user) => {
@@ -42,7 +61,7 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 					const closest = user.userId === currentUser.closestUser
 					return (
 					<Styled.UserItem key={user.username} alive={isAlive} isMe={isMe} closest={closest}>
-						 {!isAlive && `💀`}{user.username}  <Styled.Circle backgroundColor={user.color}/> {!isAlive && `💀`}</Styled.UserItem>
+						 {!isAlive && `💀`}{user.username}{!isAlive && `💀`}<Styled.Circle backgroundColor={user.color}/> </Styled.UserItem>
 						 )
 				})}
 

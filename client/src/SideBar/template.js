@@ -14,6 +14,12 @@ export default {
 		mid: "Move to who you want to find out",
 		button: "click here 🔍 "
 	},
+	'lynch': {
+		start: "🗡️ It's time to (hopefully) lynch a killer",
+		mid: "Move to who you want to lynch",
+		button: "click here 🗡️ "
+	},
+
 
 
 }

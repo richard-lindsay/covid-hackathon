@@ -49,13 +49,32 @@ class App extends Component {
 		}
 
 		triggerShowDetectiveModal= (result) => {
+			if (this.props.currentUser.role !== 'detective') return
 			const message = `They are ${!result && 'not'} a member of the Mafia.`
-			this.setState({message:message, showModal: true})
+			this.setState({message: message, showModal: true})
 			
 			setTimeout(()=> this.setState({message: null, showModal: false}), 3000)
 
 		}
 
+		showMurderModal = (type, victim) => {
+			let message
+			switch (type) {
+				case 'villagerKilled' :
+					message = `😱 A villager just died! They went by the name of ${victim.username}, may the Rest in Peace.`
+					break;
+				case 'mafiaKilled':
+					message = `You chose to kill ${victim.username}. Well done, they were a member of the Mafia! ⚔️ `
+					break;
+				case 'noneKilled':
+					message = 'Amen! No one died.'
+					break;
+			}
+			this.setState({message: message, showModal: true})
+			
+			setTimeout(()=> this.setState({message: null, showModal: false}), 4000)
+
+		}
 
     componentWillMount() {
         client.onopen = () => {
@@ -76,7 +95,10 @@ class App extends Component {
 							this.setState({ ...stateToChange })
 						} else if (dataFromServer.type === 'detectiveCheck') {
 								this.triggerShowDetectiveModal(dataFromServer.result)
-						} else if(message.type === "contentchange") {
+						} else if (dataFromServer.type.toLowerCase().includes('killed')) {
+								this.showMurderModal(dataFromServer.type, dataFromServer.victim)
+						}
+						else if(message.type === "contentchange") {
 							stateToChange.text = dataFromServer.data.editorContent || contentDefaultMessage
 						} 
          }
