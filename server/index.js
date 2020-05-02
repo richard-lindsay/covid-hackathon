@@ -22,6 +22,8 @@ const clients = {}
 // Store a list of users and their details
 const users = {}
 
+let round = {}
+
 // Start with pregame state 
 let gameState = gameStates.G_S_PREGAME
 
@@ -117,6 +119,7 @@ wsServer.on('request', (request) => {
 
                 case messageTypes.NIGHT_ALL:
                     gameState = gameStates.G_S_NIGHT
+                    round = {}
                     sendUpdate(messageTypes.NIGHT_ALL)
                 
                     // await new Promise(resolve => setTimeout(resolve, 10000));
@@ -126,14 +129,42 @@ wsServer.on('request', (request) => {
                     break
                 
                 case messageTypes.MAFIA_KILL:
-                    // {"type": "mafiaKill", "closestUser": "1234"}
-
-                    if (gameState === gamestates.G_S_N_MAFIA_CHOOSE){
-                        
+                    // {"type": "mafiaKill", "toKill": "1234"}
+                    console.log("MAFIA KILL MESSAGE HIT")
+                    if (gameState === gameStates.G_S_N_MAFIA_CHOOSE){
+                        console.log(message.toKill)
+                        round["kill"] = message.toKill
+                        gameState = gameStates.G_S_N_DOC_CHOOSE
+                        console.log("gamestate", gameState)
+                        console.log("round", round)
+                        sendUpdate(messageTypes.MAFIA_KILL)
                     } else {
                         console.log("Message receieved at wrong game state", message.type)
                     }
                     break
+
+                case messageTypes.DOCTOR_SAVE:
+                    // {"type": "doctorSave", "toSave": "1234"}
+                    if(gameState === gameStates.G_S_N_DOC_CHOOSE){
+                        round["save"] = message.toSave
+                        gameState = gameStates.G_S_N_DET_CHOOSE
+                        sendUpdate(messageTypes.DOCTOR_SAVE)
+                    } else {
+                        console.log("Message received at wrong game state", message.type)
+                    }
+                    break
+
+                case messageTypes.DETECTIVE_CHECK:
+                    // {"type": "detectiveCheck", "toCheck": "1234"}
+                    if(gameState === gameStates.G_S_N_DET_CHOOSE){
+                        round["check"] = message.toCheck
+
+                    }
+
+
+
+
+
 
                 case messageTypes.NIGHT_MAFIA:
                     // Set the screen to black for all users except mafia and allow then to choose one person

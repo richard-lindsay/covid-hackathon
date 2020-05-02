@@ -1,8 +1,4 @@
 module.exports = (userId, users) => {
-   
-    console.log("Iterate through other users and return closest based off manhatten distance ")
-
-    const id = "1"
     const data = users[userId]
     const position = data.position
 
@@ -20,6 +16,10 @@ module.exports = (userId, users) => {
     const closestUser = Object.entries(userDistances).reduce((a, b) => { 
         return a[1] < b[1] ? a : b
     })
+
+    if (closestUser[1] > 60){
+        return ""
+    }
     return closestUser[0]
 }
 
