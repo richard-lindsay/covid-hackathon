@@ -6,8 +6,8 @@ export const Wrapper = styled.div`
 `
 export const Night = styled.img `
 	width: 75%;
-	height: 110%;
-	background: repeat ${img} 0 0;
+	height: 100vh;
+	background: repeat url(${img}) 0 0;
 	background-size: contain;
 `
 
