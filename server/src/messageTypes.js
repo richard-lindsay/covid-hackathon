@@ -21,5 +21,7 @@ module.exports = {
     DETECTIVE_CHECK: "detectiveCheck",
     DOCTOR_SAVE: "doctorSave",
 
+    MAFIA_WIN: "mafiaWin",
+    VILLAGERS_WIN: "villagersWin",
 
 }

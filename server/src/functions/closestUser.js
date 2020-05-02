@@ -2,7 +2,9 @@ module.exports = (userId, users) => {
     const data = users[userId]
     const position = data.position
 
-    const otherUsers = Object.entries(users).filter(it => it[0] !== userId)
+    const otherUsers = Object.entries(users)
+        .filter(it => it[0] !== userId)
+        .filter(it => it[1].status === "alive")
 
     if (otherUsers.length === 0){
         return ""
