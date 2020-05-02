@@ -7,7 +7,7 @@ module.exports = {
     G_S_N_DOC_RETURN: 'G_S_N_DOC_RETURN',
     G_S_N_DET_CHOOSE: 'G_S_N_DET_CHOOSE',
     G_S_N_DET_RETURN: 'G_S_N_DET_RETURN',
-    G_S_D_DIS: 'G_S_D_DIS',
+    G_S_DAY: 'G_S_DAY',
     G_S_D_LYNCH: 'G_S_D_LYNCH',
     G_S_NIGHT: 'G_S_NIGHT',
     G_S_OVER: 'G_S_OVER'

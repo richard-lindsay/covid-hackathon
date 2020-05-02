@@ -15,7 +15,6 @@ const messageTypes = require('./src/messageTypes')
 const gameStates = require('./src/gameStates')
 
 
-
 // Store a list of clients and connections
 const clients = {}
 
@@ -30,7 +29,6 @@ let gameState = gameStates.G_S_PREGAME
 // Unneeded variables 
 let editorContent = null
 let userActivity = []
-
 
 
 // Web socket libraries and setup
@@ -91,13 +89,6 @@ wsServer.on('request', (request) => {
                     users[userId].closestUser = closestUser(userId, users)
                     sendUpdate(messageTypes.USER_MOVED)
                     break
-                
-                case messageTypes.USER_KILLED:
-                    // Set killed users state to dead. If number of mafia === 0 end game 
-                    // This needs to be changed to use userId instead of username for obs reasons
-                    // {"type": "userKilled", "username": "test"}
-
-                    break
         
                 case messageTypes.GAME_START:
                     // Set the game state from G_S_PREGAME to G_S_START and give out roles
@@ -130,14 +121,20 @@ wsServer.on('request', (request) => {
                 
                 case messageTypes.MAFIA_KILL:
                     // {"type": "mafiaKill", "toKill": "1234"}
-                    console.log("MAFIA KILL MESSAGE HIT")
                     if (gameState === gameStates.G_S_N_MAFIA_CHOOSE){
-                        console.log(message.toKill)
                         round["kill"] = message.toKill
-                        gameState = gameStates.G_S_N_DOC_CHOOSE
-                        console.log("gamestate", gameState)
-                        console.log("round", round)
+
+                        gameState = gameStates.G_S_N_MAFIA_RETURN
+                        console.log(gameState)
                         sendUpdate(messageTypes.MAFIA_KILL)
+
+                        var millisecondsToWait = 5000;
+                        setTimeout(function() {
+                            // Whatever you want to do after the wait
+                            gameState = gameStates.G_S_N_DOC_CHOOSE
+                            sendUpdate(messageTypes.MAFIA_KILL)
+                        }, millisecondsToWait);
+
                     } else {
                         console.log("Message receieved at wrong game state", message.type)
                     }
@@ -147,8 +144,15 @@ wsServer.on('request', (request) => {
                     // {"type": "doctorSave", "toSave": "1234"}
                     if(gameState === gameStates.G_S_N_DOC_CHOOSE){
                         round["save"] = message.toSave
-                        gameState = gameStates.G_S_N_DET_CHOOSE
+
+                        gameState = gameStates.G_S_N_DOC_RETURN
                         sendUpdate(messageTypes.DOCTOR_SAVE)
+                        var millisecondsToWait = 5000;
+                        setTimeout(function() {
+                            gameState = gameStates.G_S_N_DET_CHOOSE
+                            sendUpdate(messageTypes.DOCTOR_SAVE)
+                        }, millisecondsToWait);
+
                     } else {
                         console.log("Message received at wrong game state", message.type)
                     }
@@ -159,46 +163,29 @@ wsServer.on('request', (request) => {
                     if(gameState === gameStates.G_S_N_DET_CHOOSE){
                         round["check"] = message.toCheck
 
+                        gameState = gameStates.G_S_N_DET_RETURN
+                        sendUpdate(messageTypes.DETECTIVE_CHECK)
+
+                        var millisecondsToWait = 5000;
+                        setTimeout(function() {
+                            // kill off player if not saved 
+                            killPlayer()
+                            detectPlayer()
+                            // shows detective role of player he chose (send only detetive message with userId and if mafia)
+                            
+                            gameState = gameStates.G_S_DAY
+                            checkEndState()
+
+                            sendUpdate(messageTypes.DETECTIVE_CHECK)
+                        }, millisecondsToWait);
+
+                    } else {
+                        console.log("Message received at wrong game state", message.type)
                     }
-
-
-
-
-
-
-                case messageTypes.NIGHT_MAFIA:
-                    // Set the screen to black for all users except mafia and allow then to choose one person
-                    
                     break
-                
-                case messageTypes.NIGHT_DOC:
-                    // Set the screen to black for all users except doctor and allow then to choose one person
-
-                    break
-        
-                case messageTypes.NIGHT_DET:
-                    // Set the screen to black for all users except detective and allow then to choose one person
-
-                    break
-        
                 default: 
                     console.log('Unknown message type received!', message.type)
             }
-
-
-
-
-            // handleMessage(dataFromClient)
-            // console.log(users)
-            // if (dataFromClient.type === typesDef.USER_EVENT){
-            //     users[userID] = dataFromClient
-            //     userActivity.push(`${dataFromClient.username} joined to edit the document`)
-            //     json.data = { users, userActivity }
-            // } else if (dataFromClient.type === typesDef.CONTENT_CHANGE){
-            //     editorContent = dataFromClient.content
-            //     json.data = { editorContent, userActivity }
-            // }
-
         }
     })
 
@@ -224,4 +211,49 @@ const sendUpdate = (messageType) => {
         }
         clients[client].sendUTF(JSON.stringify(response))
     })
+}
+
+const killPlayer = () => {
+    // ToDo: send message if mafia 
+
+    var kill = round["kill"]
+    var save = round["save"]
+ 
+    if (kill !== save){
+        users[kill].status = "dead"
+    }
+}
+
+const detectPlayer = () => {
+    var check = round["check"]
+
+    var result = false
+    if (users[check].role === "mafia"){
+        result = true
+    }
+    
+    var detective = Object.entries(users).filter(x => x[1].role === "detective")[0][0]
+    console.log(detective)
+    var response = {
+        type: "detectiveCheck",
+        result
+    }
+    clients[detective].sendUTF(JSON.stringify(response))
+}
+
+
+const checkEndState = () => {
+
+    var livingUsers = Object.entries(users).filter(x => x[1].status === "alive")
+
+    var mafia = livingUsers.filter(x => x[1].role === "mafia")
+    var villagers = livingUsers.filter(x => x[1].role !== "mafia")
+
+    if (mafia.length === 0) {
+        gameState = gameStates.G_S_OVER
+        sendUpdate(messageTypes.VILLAGERS_WIN) 
+    } else if (mafia.length >= villagers.length){
+        gameState = gameStates.G_S_OVER
+        sendUpdate(messageTypes.MAFIA_WIN) 
+    }
 }
