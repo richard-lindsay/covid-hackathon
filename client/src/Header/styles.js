@@ -17,3 +17,6 @@ export const Image = styled.img `
 	height: 90px;
 
 `
+
+export const NightButton = styled.button `
+`

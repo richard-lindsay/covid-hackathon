@@ -28,16 +28,17 @@ class App extends Component {
 		
     logInUser = (username) => {
 				this.setState({username: username})
-				
         if (username.trim()) {
-            const data = { username }
-
-            this.setState(
-                {...data},
-                client.send(JSON.stringify({...data, type: 'userJoined'}))
-            )
+          const data = { username }
+				  client.send(JSON.stringify({...data, type: 'userJoined'}))
         }
-    }
+		}
+		
+		triggerNightTime= () => {
+			client.send(JSON.stringify({
+				type: 'nightAll'
+		}))
+		}
 
     onEditorStateChange = (text) => {
         client.send(JSON.stringify({
@@ -61,6 +62,7 @@ class App extends Component {
             if (dataFromServer.type && dataFromServer.users){
 							stateToChange.users = dataFromServer.users
 							stateToChange.currentUser = dataFromServer.currentUser
+							stateToChange.gameState = dataFromServer.gameState
 							this.props.handleUserJoined(stateToChange)
 							this.setState({ ...stateToChange })
 						} else if(message.type === "contentchange") {
@@ -68,24 +70,14 @@ class App extends Component {
 						} 
          }
 		}
-		
-		componentWillUnmount() {
-			client.send(JSON.stringify({type: 'userLeft'}))
-		}
 
 		render() {
-			const {currentUser, isNight, docTurn, detTurn, mafiaTurn} = this.props
-			const isMafia = currentUser.role === 'mafia'
-			const isDoctor = currentUser.role === 'doctor'
-			const isDetective = currentUser.role === 'detective'
-			const shouldBeVisible = 
-			!isNight 
-			|| (mafiaTurn && isMafia) 
-			|| (docTurn && isDoctor)
-			|| (detTurn && isDetective)
+			const {currentUser, gameState} = this.props
+			const shouldBeVisible = currentUser.username && (!gameState.includes('G_S_N') ||
+			gameState.toLowerCase().includes(currentUser.role.substring(0,3)))
 			return (
 				<>
-					<Header />
+					<Header triggerNightTime={this.triggerNightTime} />
 					<div className="container-fluid">
 						{currentUser.username 
 						? <Game shouldBeVisible={shouldBeVisible} client={client} /> 
@@ -107,10 +99,7 @@ const mapDispatchToProps  = dispatch => {
 const mapStateToProps = state => {
 	return {
 		currentUser: state.currentUser,
-		isNight: state.isNight,
-		mafiaTurn: state.mafiaTurn,
-		detTurn: state.detTurn,
-		docTurn: state.docTurn
+		gameState: state.gameState
 	}
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)

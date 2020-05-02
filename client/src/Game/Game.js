@@ -15,7 +15,7 @@ const Game = ({ client, shouldBeVisible}) => {
 			: <Styled.Night/>
 
 }
-			<SideBar handleStartGame={handleStartGame} /> 
+			<SideBar client={client} handleStartGame={handleStartGame} /> 
 		</Styled.Wrapper>
 	)
 

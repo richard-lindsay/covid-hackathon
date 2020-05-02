@@ -4,10 +4,7 @@ const initialState = {
 		username: '',
 		position: [0,0]
 	},
-	isNight: false,
-	mafiaTurn: false,
-	detTurn: false,
-	docTurn: false
+	gameState: 'G_S_PREGAME'
 }
 
 export default (state = initialState, action) => {
@@ -16,44 +13,15 @@ export default (state = initialState, action) => {
 			return {
 				...state,
 				users: action.payload.users,
-				currentUser: action.payload.currentUser
+				currentUser: action.payload.currentUser,
+				gameState: action.payload.gameState
 			}
 		case "USERS_CHANGED": 
 			return {
 				...state,
 				users: action.payload.users,
+
 			}
-		case "G_S_N_MAFIA": 
-			return {
-				...state,
-				users: action.payload.users,
-			}
-		case "NIGHT_ALL": 
-			return {
-				...state,
-				isNight: true
-			}
-		case "NIGHT_MAFIA":
-			return {
-				...state,
-				mafiaTurn: true,
-				detTurn: false,
-				docTurn: false
-			}
-		case "NIGHT_DOC":
-			return {
-				...state,
-				mafiaTurn: false,
-				detTurn: false,
-				docTurn: true
-			}
-		case "NIGHT_DET": 
-			return {
-				...state,
-				mafiaTurn: false,
-				detTurn: true,
-				docTurn: true
-			} 
 		default:
 			return {
 				...state

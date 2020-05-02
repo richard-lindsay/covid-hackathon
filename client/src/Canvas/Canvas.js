@@ -4,7 +4,7 @@ import {connect} from 'react-redux'
 import image from './canvas.jpeg'
 import * as Styled from './styles.js'
 
-const Canvas = ({users, currentUser, client, isNight, mafiaTurn, docTurn, detTurn}) => {
+const Canvas = ({users, currentUser, client}) => {
 	const [myxPosition, setxPosition] = useState(currentUser.position[0])
 	const [myyPosition, setyPosition] = useState(currentUser.position[1])
 
