@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import img from './face.png'
 import * as Styled from './styles.js'
 
-const Canvas = ({users, currentUser, client}) => {
+const Canvas = ({users, currentUser, client, gameState}) => {
 	const [myxPosition, setxPosition] = useState(currentUser.position[0])
 	const [myyPosition, setyPosition] = useState(currentUser.position[1])
 
