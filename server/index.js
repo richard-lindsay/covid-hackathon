@@ -169,8 +169,8 @@ wsServer.on('request', (request) => {
                         var millisecondsToWait = 5000;
                         setTimeout(function() {
                             // kill off player if not saved 
-                            killPlayer()
                             detectPlayer()
+                            killPlayer()
                             // shows detective role of player he chose (send only detetive message with userId and if mafia)
                             
                             gameState = gameStates.G_S_DAY
@@ -282,7 +282,7 @@ const detectPlayer = () => {
     var detective = Object.entries(users).filter(x => x[1].role === "detective")[0][0]
     console.log(detective)
     var response = {
-        type: "detectiveCheck",
+        type: messageTypes.DETECTIVE_CHECK,
         result
     }
     clients[detective].sendUTF(JSON.stringify(response))
