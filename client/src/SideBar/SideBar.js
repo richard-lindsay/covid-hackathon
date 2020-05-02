@@ -40,7 +40,7 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 						<h5> Hurry back to where you started so they don't notice you moved!</h5>
 				 }
 
-			{gameState === 'D_S_DAY'  && 
+			{gameState === 'G_S_DAY'  && 
 				<>
 					<h5> {template['lynch'].start}
 						<br/>
