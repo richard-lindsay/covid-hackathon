@@ -7,7 +7,7 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 	const handleKill = () => {
 		switch (currentUser.role.toLowerCase()) {
 			case 'mafia':
-				client.send(JSON.stringify({type: 'mafiaKill'}))
+				client.send(JSON.stringify({type: 'mafiaKill', toKill: currentUser.closestUser}))
 				break;
 			case 'detective':
 				client.send(JSON.stringify({type: 'detect'}))
@@ -38,11 +38,13 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 			<Styled.UserList>
 				{users.map((user) => {
 					const isMe = me && user.username === me
-					return <Styled.UserItem key={user.username} alive={user.status === 'alive'} isMe={isMe}> {user.username}</Styled.UserItem>
+					const isAlive = user.status === 'alive'
+					return <Styled.UserItem key={user.username} alive={isAlive} isMe={isMe} backgroundColor={user.color}> {!isAlive && `💀`}{user.username}{!isAlive && `💀`}</Styled.UserItem>
 				})}
 
 
-				{currentUser.role === 'unassigned' &&
+				{currentUser.role === 'unassigned'
+				&& users.length > 3 &&
 				<div>
 					Everyone here? 
 					<Styled.StartButton onClick={handleStartGame}>
