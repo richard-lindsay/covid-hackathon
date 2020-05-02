@@ -60,9 +60,6 @@ wsServer.on('request', (request) => {
 
             // Parse messages 
             const message = JSON.parse(messageString.utf8Data)
-
-            const json = { type: message.type }
-
             console.log(message)
 
             switch(message.type){
@@ -82,21 +79,17 @@ wsServer.on('request', (request) => {
 
                     break;
                 
-                case messageTypes.USER_LEFT:
-                    // remove user from list and return clean list of users 
-                    delete users[message.userID]
-                    var response = {
-                        type: messageTypes.USER_LEFT,
-                        users: removeRole(users)
-                    }
-                    sendUpdate(messageTypes.USER_LEFT)
-                    break
+                // case messageTypes.USER_LEFT:
+                //     // remove user from list and return clean list of users 
+                //     delete users[message.userID]
+                //     sendUpdate(messageTypes.USER_LEFT)
+                //     break
             
                 case messageTypes.USER_MOVED:
                     // update users position before returning all users back 
                     // {"type":"userMoved", "position":[10,10]}
                     users[userId].position = message.position
-                    sendUpdate(messageTypes.USER_LEFT)
+                    sendUpdate(messageTypes.USER_MOVED)
                     break
                 
                 case messageTypes.USER_KILLED:
@@ -118,7 +111,6 @@ wsServer.on('request', (request) => {
                         })
 
                         gameState = gameStates.G_S_START
-
                         sendUpdate(messageTypes.GAME_START)
 
                     } else {
@@ -178,21 +170,19 @@ wsServer.on('request', (request) => {
     connection.on('close', (connection) => {
         console.log((new Date()) + ' Peer ' + userId + " disconnected.")
 
-        const json = { type : typesDef.USER_EVENT }
-        userActivity.push(`${users[userId].username} left the document`)
-
-        json.data = { users, userActivity }
-
         delete clients[userId]
         delete users[userId]
 
-        sendMessage(clients, JSON.stringify)
+        sendUpdate(messageTypes.USER_LEFT)
+
     })
 })
 
 
 const sendUpdate = (messageType) => {
+    console.log(users)
     Object.keys(clients).map((client) => {
+        console.log("Current User: ", users[client] )
         var response = {
             type: messageType,
             users: removeRole(users),
