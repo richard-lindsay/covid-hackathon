@@ -201,16 +201,16 @@ wsServer.on('request', (request) => {
 
                 case messageTypes.RESTART_GAME:
                     // { "type": "restartGame" }
-
-                    console.log("RESTARTING GAME")
+                    if(gameState !== gameStates.G_S_PREGAME) {
+                        console.log("RESTARTING GAME")
                 
-                    Object.keys(users).forEach(function(key) { delete users[key] })
-                    Object.keys(clients).forEach(function(key) { 
-                        clients[key].close()
-                        delete clients[key]
-                    })
-                    gameState = gameStates.G_S_PREGAME
-
+                        Object.keys(users).forEach(function(key) { delete users[key] })
+                        Object.keys(clients).forEach(function(key) { 
+                            clients[key].close()
+                            delete clients[key]
+                        })
+                        gameState = gameStates.G_S_PREGAME
+                    }
                     break
                 default: 
                     console.log('Unknown message type received!', message.type)
@@ -239,7 +239,7 @@ const sendUpdate = (messageType, removeRoles = true) => {
     Object.keys(clients).map((client) => {
         var response = {
             type: messageType,
-            users: removeRole(users),
+            users: usersResponse,
             currentUser: users[client],
             gameState: gameState
         }
