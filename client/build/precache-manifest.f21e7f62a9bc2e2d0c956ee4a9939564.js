@@ -1,23 +1,23 @@
 self.__precacheManifest = [
   {
-    "revision": "53f7ad4842a8bf98b39b",
+    "revision": "13fa5735eaa92ec14a34",
     "url": "/covid-hackathon/client/build/static/css/main.96b22e4a.chunk.css"
   },
   {
-    "revision": "53f7ad4842a8bf98b39b",
-    "url": "/covid-hackathon/client/build/static/js/main.de02d692.chunk.js"
+    "revision": "13fa5735eaa92ec14a34",
+    "url": "/covid-hackathon/client/build/static/js/main.c8a9b742.chunk.js"
   },
   {
     "revision": "e055d577ffcf176fa877",
     "url": "/covid-hackathon/client/build/static/js/runtime~main.380feabc.js"
   },
   {
-    "revision": "4146a5735a9b376ab2e8",
+    "revision": "4dc3d0b6eb427f7a27e6",
     "url": "/covid-hackathon/client/build/static/css/2.d068e95b.chunk.css"
   },
   {
-    "revision": "4146a5735a9b376ab2e8",
-    "url": "/covid-hackathon/client/build/static/js/2.d481bbde.chunk.js"
+    "revision": "4dc3d0b6eb427f7a27e6",
+    "url": "/covid-hackathon/client/build/static/js/2.f1e0170b.chunk.js"
   },
   {
     "revision": "16d5a4f4bb99d502d0ea74d5631c0fd1",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/covid-hackathon/client/build/static/media/daycanvas.1ec1becf.jpg"
   },
   {
-    "revision": "fcd898f71c229b422e8b47d037134a6a",
+    "revision": "f1b3fe2c8d219b910f9e3b12700bef97",
     "url": "/covid-hackathon/client/build/index.html"
   }
 ];
