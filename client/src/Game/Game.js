@@ -13,7 +13,7 @@ const Game = ({ client, shouldBeVisible, gameState}) => {
 	}
 	return ( 
 		<Styled.Wrapper>
-			{gameState !== 'G_S_OVER' 
+			{gameState === 'G_S_OVER' 
 			? <GameOver />
 			: shouldBeVisible
 				? <Canvas client={client} />
