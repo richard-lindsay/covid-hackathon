@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 
+export const headerHeight = '90px'
 export const HeaderContainer = styled.div `
 	display: flex;
 	align-items: center;
-	height: 90px;
+	height: ${headerHeight};
 	padding: 20px;
 	font-family: monospace;
 	font-size: 20px;
@@ -14,7 +15,7 @@ export const HeaderContainer = styled.div `
 `
 export const Image = styled.img ` 
 	align-self: center;
-	height: 90px;
+	height: ${headerHeight};
 
 `
 

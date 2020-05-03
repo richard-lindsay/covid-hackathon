@@ -86,9 +86,9 @@ class App extends Component {
         client.onmessage = (message) => {
 					
             const dataFromServer = JSON.parse(message.data)
-            const stateToChange = {}
-
-            if (dataFromServer.type && dataFromServer.users && dataFromServer.type !== 'noneKilled'){
+						const stateToChange = {}
+						
+						if (dataFromServer.type && dataFromServer.users && dataFromServer.type !== 'noneKilled'){
 							stateToChange.users = dataFromServer.users
 							stateToChange.currentUser = dataFromServer.currentUser
 							stateToChange.gameState = dataFromServer.gameState
