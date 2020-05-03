@@ -10,8 +10,8 @@ import 'medium-editor/dist/css/themes/default.css';
 import './App.css';
 import { Modal } from './Modal/Modal';
 
-const client  = new W3CWebSocket('ws://127.0.0.1:8080')
-// const client  = new W3CWebSocket('ws://gentle-ridge-18754.herokuapp.com/')
+// const client  = new W3CWebSocket('ws://127.0.0.1:8080')
+const client  = new W3CWebSocket('ws://gentle-ridge-18754.herokuapp.com/')
 
 const contentDefaultMessage = "Start writing your document here"
 
