@@ -62,7 +62,6 @@ wsServer.on('request', (request) => {
 
             // Parse messages 
             const message = JSON.parse(messageString.utf8Data)
-            console.log(message)
 
             switch(message.type){
                 case messageTypes.USER_JOINED:
@@ -175,16 +174,9 @@ wsServer.on('request', (request) => {
                                                             
                                 gameState = gameStates.G_S_DAY
                                 checkEndState()
-
                                 sendUpdate(messageTypes.DETECTIVE_CHECK)
-
+                                
                             }, 3000)
-                            // shows detective role of player he chose (send only detetive message with userId and if mafia)
-                            
-                            // gameState = gameStates.G_S_DAY
-                            // checkEndState()
-
-                            // sendUpdate(messageTypes.DETECTIVE_CHECK)
                         }, 5000);
 
                     } else {
@@ -192,14 +184,12 @@ wsServer.on('request', (request) => {
                     }
                     break
 
-
                 case messageTypes.VILLAGER_LYNCH:
                     // {"type" = "villagerLynch", "toLynch": "1234"}
 
                     if(gameState === gameStates.G_S_DAY){
                         lynchPlayer(message.toLynch)
                         checkEndState()
-                        // sendUpdate(messageTypes.VILLAGER_LYNCH)
 
                         gameState = gameStates.G_S_START
                         sendUpdate(messageTypes.GAME_START)
@@ -288,7 +278,6 @@ const detectPlayer = () => {
     }
     
     var detective = Object.entries(users).filter(x => x[1].role === "detective")[0][0]
-    console.log(detective)
     var response = {
         type: messageTypes.DETECTIVE_CHECK,
         result
@@ -305,10 +294,10 @@ const checkEndState = () => {
     var villagers = livingUsers.filter(x => x[1].role !== "mafia")
 
     if (mafia.length === 0) {
-        gameState = gameStates.G_S_OVER
-        sendUpdate(messageTypes.VILLAGERS_WIN) 
+        gameState = gameStates.G_S_VILLAGERS_WIN
+        sendUpdate(messageTypes.GAME_OVER) 
     } else if (mafia.length >= villagers.length){
-        gameState = gameStates.G_S_OVER
-        sendUpdate(messageTypes.MAFIA_WIN) 
+        gameState = gameStates.G_S_MAFIA_WIN
+        sendUpdate(messageTypes.GAME_OVER) 
     }
 }

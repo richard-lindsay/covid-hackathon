@@ -10,5 +10,6 @@ module.exports = {
     G_S_DAY: 'G_S_DAY',
     G_S_D_LYNCH: 'G_S_D_LYNCH',
     G_S_NIGHT: 'G_S_NIGHT',
-    G_S_OVER: 'G_S_OVER'
+    G_S_MAFIA_WIN: 'G_S_MAFIA_WIN',
+    G_S_VILLAGERS_WIN: 'G_S_VILLAGERS_WIN'
 }
