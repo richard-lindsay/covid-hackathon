@@ -106,13 +106,13 @@ class App extends Component {
 
 		render() {
 			const {currentUser, gameState} = this.props
-			const shouldBeVisible = currentUser.username && (!gameState.includes('G_S_N') ||
+			const shouldBeVisible = currentUser && currentUser.username && (!gameState.includes('G_S_N') ||
 			gameState.toLowerCase().includes(currentUser.role.substring(0,3)))
 			return (
 				<>
 					<Header triggerNightTime={this.triggerNightTime} />
 					<div className="container-fluid">
-						{currentUser.username 
+						{currentUser && currentUser.username 
 						? <Game shouldBeVisible={shouldBeVisible} client={client} /> 
 						: <Login logInUser={this.logInUser} />}
 					</div>

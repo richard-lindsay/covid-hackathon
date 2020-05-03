@@ -3,7 +3,7 @@ import * as Styled from './styles.js'
 import logo from './headerimg.png'
 import { connect } from 'react-redux'
 
-const Header = ({currentUser, gameState, triggerNightTime}) => {
+const Header = ({currentUser = {}, gameState, triggerNightTime}) => {
 	
 	return (
 		<Styled.HeaderContainer>
@@ -15,7 +15,7 @@ const Header = ({currentUser, gameState, triggerNightTime}) => {
 					: <span> Hello! Welcome to St George's Village.</span>
 				}
 			</div>
-			{ !gameState.includes('G_S_N')  && !gameState.includes('G_S_PREGAME') && currentUser.role !== 'unassigned' &&
+			{ gameState === 'G_S_START' && currentUser.role && currentUser.role !== 'unassigned' &&
 				<Styled.NightButton onClick={triggerNightTime}>Trigger Night Time</Styled.NightButton>
 			}
 			{currentUser.username && 
