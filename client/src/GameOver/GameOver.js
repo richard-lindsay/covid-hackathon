@@ -34,14 +34,14 @@ const GameOver = ({users, currentUser, gameState, client}) => {
 			Villagers: 
 			{
 				users.filter(user => user.role !== 'mafia').map(user => {
-					return (<Styled.UserItem>
+					return (<div>
 						{user.status !== 'alive' ? '⚰️' : ''}
 						{user.username} 
 						<div style={{transform: 'scaleX(-1)', display: 'inline-block'}}>
 						{user.status !== 'alive' ? '⚰️' : ''}
 						</div>
 
-					</Styled.UserItem>)
+					</div>)
 				})
 			}
 			</Styled.Column>
@@ -49,13 +49,13 @@ const GameOver = ({users, currentUser, gameState, client}) => {
 			Mafia: 
 			{
 				users.filter(user => user.role === 'mafia').map(user => {
-					return (<Styled.UserItem>
+					return (<div>
 						{user.status !== 'alive' ? '⚰️' : ''}
 						{user.username}
 						<div style={{transform: 'scaleX(-1)', display: 'inline-block'}}>
 						{user.status !== 'alive' ? '⚰️' : ''}
 						</div>
-					</Styled.UserItem>)
+					</div>)
 				})
 			}
 			</Styled.Column>

@@ -18,9 +18,6 @@ export const Banner = styled.div `
 	font-size: 30px;
 `
 
-export const UserItem = styled.div `
-
-`
 export const Summary = styled.div `
 	display: flex;
 	justify-content: center;
