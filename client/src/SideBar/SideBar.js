@@ -24,10 +24,10 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 
 	}
 	if (gameState.toLowerCase().includes(currentUser.role.substring(0,3))  && 
-		gameState.includes('CHOOSE') && currentUser.status !== 'alive') {
+		gameState.includes('CHOOSE') && currentUser.status !== 'alive' && currentUser.role !== 'mafia') {
 			setTimeout(() => {
 			handleKill()
-		}, 3000);
+		}, 10000);
 	}
 
 	return ( 
