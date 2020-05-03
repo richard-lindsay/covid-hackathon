@@ -2,6 +2,7 @@
   "name": "websocket-client",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://richard-lindsay.github.io/covid-hackathon/client/build",
   "dependencies": {
     "medium-editor": "^5.23.3",
     "react": "^16.8.6",
