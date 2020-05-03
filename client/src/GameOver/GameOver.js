@@ -1,7 +1,6 @@
 import React from 'react'
 import * as Styled from './styles.js'
 import { connect } from 'react-redux'
-import Confetti from 'react-confetti'
 
 const GameOver = ({users, currentUser, gameState, client}) => {
 	const isMafia = currentUser.role === 'mafia'
@@ -16,7 +15,6 @@ const GameOver = ({users, currentUser, gameState, client}) => {
 		<Styled.Page>
 			{((isMafia && mafiaWon) || (!isMafia && !mafiaWon)) && 
 			<>
-			<Confetti recycle={false} />
 			<Styled.Banner>
 			🎊 You have successfully defeated the {mafiaWon ? 'village' : 'Mafia'}! 🎊
 			</Styled.Banner>
@@ -34,7 +32,7 @@ const GameOver = ({users, currentUser, gameState, client}) => {
 			Villagers: 
 			{
 				users.filter(user => user.role !== 'mafia').map(user => {
-					return (<div>
+					return (<div key={user.userId}>
 						{user.status !== 'alive' ? '⚰️' : ''}
 						{user.username} 
 						<div style={{transform: 'scaleX(-1)', display: 'inline-block'}}>
@@ -49,7 +47,7 @@ const GameOver = ({users, currentUser, gameState, client}) => {
 			Mafia: 
 			{
 				users.filter(user => user.role === 'mafia').map(user => {
-					return (<div>
+					return (<div key={user.id}>
 						{user.status !== 'alive' ? '⚰️' : ''}
 						{user.username}
 						<div style={{transform: 'scaleX(-1)', display: 'inline-block'}}>
