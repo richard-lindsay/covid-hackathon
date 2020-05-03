@@ -32,7 +32,11 @@ let userActivity = []
 
 
 // Web socket libraries and setup
-const webSocketServerPort = 8080
+
+let webSocketServerPort = process.env.PORT;
+if (webSocketServerPort == null || webSocketServerPort == "") {
+    webSocketServerPort = 8080;
+}
 const httpServer = http.createServer()
 httpServer.listen(webSocketServerPort)
 const wsServer = new webSocketServer({httpServer})
@@ -173,9 +177,11 @@ wsServer.on('request', (request) => {
                                 killPlayer()
                                                             
                                 gameState = gameStates.G_S_DAY
-                                checkEndState()
-                                sendUpdate(messageTypes.DETECTIVE_CHECK)
-                                
+                                if (checkEndState()){
+                                    sendUpdate(messageTypes.GAME_OVER)
+                                } else {
+                                    sendUpdate(messageTypes.DETECTIVE_CHECK)
+                                }
                             }, 3000)
                         }, 5000);
 
@@ -189,10 +195,12 @@ wsServer.on('request', (request) => {
 
                     if(gameState === gameStates.G_S_DAY){
                         lynchPlayer(message.toLynch)
-                        checkEndState()
-
-                        gameState = gameStates.G_S_START
-                        sendUpdate(messageTypes.GAME_START)
+                        if (checkEndState()){
+                            sendUpdate(messageTypes.GAME_OVER)
+                        } else {
+                            gameState = gameStates.G_S_START
+                            sendUpdate(messageTypes.GAME_START)
+                        }
                     } else {
                         console.log("Message received at wrong game state", message.type)
                     }
@@ -295,9 +303,10 @@ const checkEndState = () => {
 
     if (mafia.length === 0) {
         gameState = gameStates.G_S_VILLAGERS_WIN
-        sendUpdate(messageTypes.GAME_OVER) 
+        return true
     } else if (mafia.length >= villagers.length){
         gameState = gameStates.G_S_MAFIA_WIN
-        sendUpdate(messageTypes.GAME_OVER) 
+        return true
     }
+    return false
 }
