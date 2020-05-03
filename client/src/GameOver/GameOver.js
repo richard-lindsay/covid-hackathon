@@ -3,12 +3,15 @@ import * as Styled from './styles.js'
 import { connect } from 'react-redux'
 import Confetti from 'react-confetti'
 
-const GameOver = ({users, currentUser, gameState}) => {
+const GameOver = ({users, currentUser, gameState, client}) => {
 	const isMafia = currentUser.role === 'mafia'
-	const mafiaWon = gameState === 'mafiaWin'
+	const mafiaWon = gameState === 'G_S_MAFIA_WIN'
+	const handleReset = () => {
+		client.send(JSON.stringify({"type": "restartGame"}))
+	}
 	return (
 		<Styled.Page>
-			{(isMafia && mafiaWon) || (!isMafia && !mafiaWon) && 
+			{((isMafia && mafiaWon) || (!isMafia && !mafiaWon)) && 
 			<>
 			<Confetti recycle={false} />
 			<Styled.Banner>
@@ -16,7 +19,7 @@ const GameOver = ({users, currentUser, gameState}) => {
 			</Styled.Banner>
 			</>
 			}
-			{(isMafia && !mafiaWon) || (!isMafia && mafiaWon) && 
+			{((isMafia && !mafiaWon) || (!isMafia && mafiaWon)) && 
 			<>
 			<Styled.Banner>
 				You were defeated by the {!mafiaWon ? 'village' : 'Mafia'}! 
@@ -30,7 +33,6 @@ const GameOver = ({users, currentUser, gameState}) => {
 				users.filter(user => user.role !== 'mafia').map(user => {
 					return (<Styled.UserItem>
 						{user.status !== 'alive' ? '⚰️' : ''}
-
 						{user.username} 
 						<div style={{transform: 'scaleX(-1)', display: 'inline-block'}}>
 						{user.status !== 'alive' ? '⚰️' : ''}
@@ -46,7 +48,6 @@ const GameOver = ({users, currentUser, gameState}) => {
 				users.filter(user => user.role === 'mafia').map(user => {
 					return (<Styled.UserItem>
 						{user.status !== 'alive' ? '⚰️' : ''}
-
 						{user.username}
 						<div style={{transform: 'scaleX(-1)', display: 'inline-block'}}>
 						{user.status !== 'alive' ? '⚰️' : ''}
@@ -56,7 +57,9 @@ const GameOver = ({users, currentUser, gameState}) => {
 			}
 			</Styled.Column>
 			</Styled.Summary>
-
+			<Styled.ResetButton onClick={handleReset}>
+				Start New Game
+			</Styled.ResetButton>
 		</Styled.Page>
 	)
 }

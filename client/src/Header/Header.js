@@ -4,6 +4,7 @@ import logo from './headerimg.png'
 import { connect } from 'react-redux'
 
 const Header = ({currentUser, gameState, triggerNightTime}) => {
+	
 	return (
 		<Styled.HeaderContainer>
 			<div>
@@ -14,13 +15,13 @@ const Header = ({currentUser, gameState, triggerNightTime}) => {
 					: <span> Hello! Welcome to St George's Village.</span>
 				}
 			</div>
-			{ !gameState.includes('G_S_N')  && !gameState.includes('G_S_PREGAME') && 
+			{ !gameState.includes('G_S_N')  && !gameState.includes('G_S_PREGAME') && currentUser.role !== 'unassigned' &&
 				<Styled.NightButton onClick={triggerNightTime}>Trigger Night Time</Styled.NightButton>
 			}
 			{currentUser.username && 
 				<span> 
 					{currentUser.role && currentUser.role !== 'unassigned' 
-						? `You are a ${currentUser.role}` 
+						? `You ${currentUser.status === 'alive' ? 'are' : 'were'} a ${currentUser.role}. ${currentUser.status !== 'alive' ? 'You are now dead' : ''}` 
 						: `Wait for your role to be dealt!`}
 				</span>
 			}

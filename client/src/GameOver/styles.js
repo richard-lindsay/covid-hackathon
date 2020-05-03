@@ -3,6 +3,8 @@ import styled from "styled-components";
 export const Page = styled.div `
 	width: 100%;
 	font-family: monospace;
+	display: flex;
+	flex-direction: column;
 `
 
 export const Banner = styled.div `
@@ -33,4 +35,16 @@ export const Column = styled.div `
 	font-size: 21px;
 	line-height: 40px;
 }
+`
+
+export const ResetButton = styled.button `
+	align-self: center;
+	padding: 5px;
+	appearance: none;
+	border-radius: 3px;
+	padding: 15px;
+	font-size: 20px;
+	background-color: #2ed1f7;
+	color: white;
+
 `

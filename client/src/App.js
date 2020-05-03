@@ -54,9 +54,6 @@ class App extends Component {
 			if (this.props.currentUser.role !== 'detective') return
 			const message = `They are ${!result ? 'not ' : ''}a member of the Mafia.`
 			this.setState({message: message, showModal: true})
-			
-			setTimeout(()=> this.setState({message: null, showModal: false}), 3000)
-
 		}
 
 		showMurderModal = (type, victim = '') => {
@@ -69,7 +66,7 @@ class App extends Component {
 					message = `You chose to kill ${victim.username}. Well done, they were a member of the Mafia! ⚔️ `
 					break;
 				case 'noneKilled':
-					message = 'Amen! No one died.'
+					message = 'Amen! No one died last night.'
 					break;
 				default:
 					message = 'Not really sure what happened here... '

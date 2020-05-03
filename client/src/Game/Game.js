@@ -13,8 +13,8 @@ const Game = ({ client, shouldBeVisible, gameState}) => {
 	}
 	return ( 
 		<Styled.Wrapper>
-			{gameState === 'G_S_OVER' 
-			? <GameOver />
+			{gameState.includes('WIN') 
+			? <GameOver client={client} />
 			: <> {shouldBeVisible
 				? <Canvas client={client} />
 				: <Styled.NightContainer>

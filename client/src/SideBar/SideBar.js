@@ -23,11 +23,20 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 		client.send(JSON.stringify({type: 'villagerLynch', toLynch: currentUser.closestUser}))
 
 	}
+	if (gameState.toLowerCase().includes(currentUser.role.substring(0,3))  && 
+		gameState.includes('CHOOSE') && currentUser.status !== 'alive') {
+			setTimeout(() => {
+			handleKill()
+		}, 3000);
+	}
+
 	return ( 
+
 		<Styled.SideBar>
+
 			{gameState.toLowerCase().includes(currentUser.role.substring(0,3))  && 
-			gameState.includes('CHOOSE') &&
-				<>
+			gameState.includes('CHOOSE') && currentUser.status === 'alive' &&
+				 <>
 					<h5> {template[currentUser.role].start}
 						<br/>
 						{template[currentUser.role].mid}
@@ -36,11 +45,13 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 				</> 
 				 }
 				 {gameState.toLowerCase().includes(currentUser.role.substring(0,3))  && 
-					gameState.includes('RETURN') &&
+					gameState.includes('RETURN') && currentUser.status === 'alive' &&
 						<h5> Hurry back to where you started so they don't notice you moved!</h5>
 				 }
-
-			{gameState === 'G_S_DAY'  && 
+			{currentUser.status !== 'alive' &&
+			<h5> You are dead. </h5>
+			}
+			{gameState === 'G_S_DAY' && currentUser.status === 'alive' &&
 				<>
 					<h5> {template['lynch'].start}
 						<br/>

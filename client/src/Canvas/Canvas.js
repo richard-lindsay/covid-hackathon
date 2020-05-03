@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import {connect} from 'react-redux'
 import img from './face.png'
+import ghostImg from './ghost.png'
 import * as Styled from './styles.js'
 
 const Canvas = ({users, currentUser, client, gameState}) => {
@@ -9,9 +10,11 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 
 	const canvasRef = useRef(null)
 	const imageRef = useRef(null)
+	const ghostImageRef = useRef(null)
 	let ctx
 	let canvas
 	let image
+	let ghost
 
 	useEffect(() => {
 		canvas = canvasRef.current
@@ -24,8 +27,13 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 	useEffect(() => {
 		canvas.width = canvas.width;
 		image = imageRef.current
+		ghost = ghostImageRef.current
 		users.forEach(user => {
-			if (user.status === 'dead') return
+			
+			if (user.status === 'dead') {
+				ctx.drawImage(ghost, user.position[0], user.position[1], 10, 10);
+				return
+			}
 			ctx.fillStyle = user.color;
 			ctx.fillRect(user.position[0], user.position[1], 10, 10)
 			ctx.drawImage(image, user.position[0], user.position[1], 10, 10);
@@ -98,6 +106,7 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 		<Styled.CanvasContainer>
 			<Styled.Canvas ref={canvasRef} night={gameState.includes('G_S_N')} />
 			<img src={img} ref={imageRef}  style={{display: 'none'}}/>
+			<img src={ghostImg} ref={ghostImageRef}  style={{display: 'none'}}/>
 		</Styled.CanvasContainer>
 	)
 
