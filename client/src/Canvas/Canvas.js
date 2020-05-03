@@ -19,7 +19,7 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 	useEffect(() => {
 		canvas = canvasRef.current
 		ctx = canvas.getContext("2d")
-		currentUser.status === 'alive' && window && window.addEventListener("keydown", moveMyself, false);
+		window && window.addEventListener("keydown", moveMyself, false);
 		
 		return () => window.removeEventListener("keydown", moveMyself);
 
@@ -58,11 +58,12 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 	}, [users, currentUser])
 
  const moveMyself = (e) => {
-	e.preventDefault()
 	let newx
 	let newy
 	switch(e.keyCode) {
 		case 37:
+			e.preventDefault()
+
 			canvas.width = canvas.width;
 			// left key pressed
 			newx = myxPosition - 5 > 0 ? myxPosition - 5 : myxPosition
@@ -71,6 +72,8 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 			client.send(JSON.stringify({type: 'userMoved', position: [myxPosition-5, myyPosition]}))
 			break;
 		case 38:
+			e.preventDefault()
+
 			canvas.width = canvas.width;
 			// up key pressed
 			newy = myyPosition - 5 > 0 ? myyPosition - 5 : myyPosition
@@ -80,6 +83,8 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 			client.send(JSON.stringify({type: 'userMoved', position: [myxPosition, myyPosition - 5]}))
 			break;
 		case 39:
+			e.preventDefault()
+
 			canvas.width = canvas.width;
 			// right key pressed
 			newx = myxPosition + 5 < canvas.width ? myxPosition + 5 : myxPosition
@@ -89,6 +94,8 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 			client.send(JSON.stringify({type: 'userMoved', position: [myxPosition + 5, myyPosition]}))
 			break;
 		case 40:
+			e.preventDefault()
+
 			canvas.width = canvas.width;
 
 			// down key pressed

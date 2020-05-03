@@ -19,10 +19,11 @@ const Game = ({ client, shouldBeVisible, gameState}) => {
 				? <Canvas client={client} />
 				: <Styled.NightContainer>
 						<Styled.Night />
-					</Styled.NightContainer>}
+					</Styled.NightContainer>
+					}
 					
 				<SideBar client={client} handleStartGame={handleStartGame} /></> 
-				}
+			}
 		</Styled.Wrapper>
 	)
 

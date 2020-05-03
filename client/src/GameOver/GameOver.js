@@ -8,7 +8,10 @@ const GameOver = ({users, currentUser, gameState, client}) => {
 	const mafiaWon = gameState === 'G_S_MAFIA_WIN'
 	const handleReset = () => {
 		client.send(JSON.stringify({"type": "restartGame"}))
-	}
+		setTimeout(() => 
+			window.location.reload(false),
+			500)
+		}
 	return (
 		<Styled.Page>
 			{((isMafia && mafiaWon) || (!isMafia && !mafiaWon)) && 
