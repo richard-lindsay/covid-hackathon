@@ -1,26 +1,36 @@
 import React from 'react'
 import Canvas from '../Canvas/Canvas'
 import SideBar from '../SideBar/SideBar'
-import * as Styled from './styles.js'
+import GameOver from '../GameOver/GameOver'
 
-const Game = ({ client, shouldBeVisible}) => {	
+import * as Styled from './styles.js'
+import { connect } from 'react-redux'
+
+const Game = ({ client, shouldBeVisible, gameState}) => {	
 	const handleStartGame = () => {
 		console.log('Starting Game');
 		client.send(JSON.stringify({"type": "gameStart"}))
 	}
 	return ( 
 		<Styled.Wrapper>
-			{ shouldBeVisible
-			? <Canvas client={client} />
-			: <Styled.NightContainer>
-					<Styled.Night />
-				</Styled.NightContainer>
-
-}
-			<SideBar client={client} handleStartGame={handleStartGame} /> 
+			{gameState === 'G_S_OVER' 
+			? <GameOver />
+			: <> {shouldBeVisible
+				? <Canvas client={client} />
+				: <Styled.NightContainer>
+						<Styled.Night />
+					</Styled.NightContainer>}
+					
+				<SideBar client={client} handleStartGame={handleStartGame} /></> 
+				}
 		</Styled.Wrapper>
 	)
 
 }
 
-export default Game
+const mapStateToProps = state => {
+	return { 
+		gameState: state.gameState
+	}
+}
+export default connect(mapStateToProps)(Game)
