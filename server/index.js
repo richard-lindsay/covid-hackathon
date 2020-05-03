@@ -111,8 +111,6 @@ wsServer.on('request', (request) => {
                     round = {}
                     sendUpdate(messageTypes.NIGHT_ALL)
                 
-                    // await new Promise(resolve => setTimeout(resolve, 10000));
-
                     gameState = gameStates.G_S_N_MAFIA_CHOOSE
                     sendUpdate(messageTypes.NIGHT_MAFIA)
                     break
@@ -173,7 +171,7 @@ wsServer.on('request', (request) => {
                                                             
                                 gameState = gameStates.G_S_DAY
                                 if (checkEndState()){
-                                    sendUpdate(messageTypes.GAME_OVER)
+                                    sendUpdate(messageTypes.GAME_OVER, false)
                                 } else {
                                     sendUpdate(messageTypes.DETECTIVE_CHECK)
                                 }
@@ -191,7 +189,7 @@ wsServer.on('request', (request) => {
                     if(gameState === gameStates.G_S_DAY){
                         lynchPlayer(message.toLynch)
                         if (checkEndState()){
-                            sendUpdate(messageTypes.GAME_OVER)
+                            sendUpdate(messageTypes.GAME_OVER, false)
                         } else {
                             gameState = gameStates.G_S_START
                             sendUpdate(messageTypes.GAME_START)
@@ -232,7 +230,12 @@ wsServer.on('request', (request) => {
 })
 
 
-const sendUpdate = (messageType) => {
+const sendUpdate = (messageType, removeRoles = true) => {
+
+    let usersResponse = users
+    if(removeRoles = true) {
+        usersResponse = removeRole(users)
+    }
     Object.keys(clients).map((client) => {
         var response = {
             type: messageType,
