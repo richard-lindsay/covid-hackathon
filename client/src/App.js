@@ -69,6 +69,8 @@ class App extends Component {
 				case 'noneKilled':
 					message = 'Amen! No one died.'
 					break;
+				default:
+					message = 'Not really sure what happened here... '
 			}
 			this.setState({message: message, showModal: true})
 			
@@ -82,12 +84,11 @@ class App extends Component {
         }
 
         client.onmessage = (message) => {
-					console.log(message.data);
 					
             const dataFromServer = JSON.parse(message.data)
             const stateToChange = {}
 
-            if (dataFromServer.type && dataFromServer.users){
+            if (dataFromServer.type && dataFromServer.users && dataFromServer.type !== 'noneKilled'){
 							stateToChange.users = dataFromServer.users
 							stateToChange.currentUser = dataFromServer.currentUser
 							stateToChange.gameState = dataFromServer.gameState
@@ -95,7 +96,7 @@ class App extends Component {
 							this.setState({ ...stateToChange })
 						} else if (dataFromServer.type === 'detectiveCheck') {
 								this.triggerShowDetectiveModal(dataFromServer.result)
-						} else if (dataFromServer.type.toLowerCase().includes('killed')) {
+						} else if (dataFromServer.type.toLowerCase().includes('killed')) {							
 							this.showMurderModal(dataFromServer.type, dataFromServer.victim || '')
 						}
 						else if(message.type === "contentchange") {
