@@ -26,11 +26,6 @@ let round = {}
 // Start with pregame state 
 let gameState = gameStates.G_S_PREGAME
 
-// Unneeded variables 
-let editorContent = null
-let userActivity = []
-
-
 // Web socket libraries and setup
 
 let webSocketServerPort = process.env.PORT;
@@ -204,6 +199,20 @@ wsServer.on('request', (request) => {
                     } else {
                         console.log("Message received at wrong game state", message.type)
                     }
+                    break
+
+                case messageTypes.RESTART_GAME:
+                    // { "type": "restartGame" }
+
+                    console.log("RESTARTING GAME")
+                
+                    Object.keys(users).forEach(function(key) { delete users[key] })
+                    Object.keys(clients).forEach(function(key) { 
+                        clients[key].close()
+                        delete clients[key]
+                    })
+                    gameState = gameStates.G_S_PREGAME
+
                     break
                 default: 
                     console.log('Unknown message type received!', message.type)

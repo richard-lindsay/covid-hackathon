@@ -25,5 +25,7 @@ module.exports = {
 
     VILLAGER_KILLED: "villagerKilled",
     MAFIA_KILLED: "mafiaKilled",
-    NONE_KILLED: "noneKilled"
+    NONE_KILLED: "noneKilled",
+
+    RESTART_GAME: "restartGame",
 }
