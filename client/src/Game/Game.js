@@ -15,11 +15,11 @@ const Game = ({ client, shouldBeVisible, gameState}) => {
 		<Styled.Wrapper>
 			{gameState === 'G_S_OVER' 
 			? <GameOver />
-			: shouldBeVisible
+			: <> {shouldBeVisible
 				? <Canvas client={client} />
-				: <><Styled.NightContainer>
+				: <Styled.NightContainer>
 						<Styled.Night />
-					</Styled.NightContainer>
+					</Styled.NightContainer>}
 					
 				<SideBar client={client} handleStartGame={handleStartGame} /></> 
 				}
