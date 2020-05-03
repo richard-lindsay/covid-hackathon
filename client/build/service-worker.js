@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/covid-hackathon/client/build/precache-manifest.e8549f4999128eb43875f9542574eeba.js"
+  "/covid-hackathon/client/build/precache-manifest.6281b6d0f4d41ee3138d5e91f332e073.js"
 );
 
 workbox.clientsClaim();

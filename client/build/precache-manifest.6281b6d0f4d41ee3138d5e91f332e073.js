@@ -1,11 +1,11 @@
 self.__precacheManifest = [
   {
-    "revision": "ecb6a04f28d87d379a11",
+    "revision": "53f7ad4842a8bf98b39b",
     "url": "/covid-hackathon/client/build/static/css/main.96b22e4a.chunk.css"
   },
   {
-    "revision": "ecb6a04f28d87d379a11",
-    "url": "/covid-hackathon/client/build/static/js/main.58bdf67c.chunk.js"
+    "revision": "53f7ad4842a8bf98b39b",
+    "url": "/covid-hackathon/client/build/static/js/main.de02d692.chunk.js"
   },
   {
     "revision": "e055d577ffcf176fa877",
@@ -40,7 +40,7 @@ self.__precacheManifest = [
     "url": "/covid-hackathon/client/build/static/media/daycanvas.1ec1becf.jpg"
   },
   {
-    "revision": "457f49af0913feee1dcfb48b68daaf62",
+    "revision": "fcd898f71c229b422e8b47d037134a6a",
     "url": "/covid-hackathon/client/build/index.html"
   }
 ];
