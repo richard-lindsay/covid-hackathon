@@ -15,11 +15,11 @@ const GameOver = ({users, currentUser, gameState, client}) => {
 		<Styled.Page>
 			{((isMafia && mafiaWon) || (!isMafia && !mafiaWon)) && 
 			<>
-			{/* <Styled.ConfettiWrapper>
-				{[1,2,3,4,5,6,7,8,9,0].map(i =>
-				  <Styled.Confetti key={`confetti-${i}`}/>
+			<Styled.ConfettiWrapper>
+				{[...Array(10).keys()].map(i =>
+				  <Styled.Confetti key={`confetti-${i}`} left={i} />
 				)}
-			</Styled.ConfettiWrapper> */}
+			</Styled.ConfettiWrapper>
 			<Styled.Banner>
 			🎊 You have successfully defeated the {mafiaWon ? 'village' : 'Mafia'}! 🎊
 			</Styled.Banner>

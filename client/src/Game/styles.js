@@ -1,16 +1,14 @@
 import styled from "styled-components";
-import img from './canvas.jpeg';
 
 export const Wrapper = styled.div`
 	display: flex;
+	margin-bottom: 100px;
 `
 export const NightContainer = styled.div ` 
 	width: 75%;
 `
-export const Night = styled.div `
+export const Night = styled.img `
 	width: 100%;
-	height: 110vh;
-	background: no-repeat url(${img}) 0 0;
 	background-size: contain;
 `
 

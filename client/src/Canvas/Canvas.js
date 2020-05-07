@@ -64,9 +64,8 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 		case 37:
 			e.preventDefault()
 
-			canvas.width = canvas.width;
 			// left key pressed
-			newx = myxPosition - 5 > 0 ? myxPosition - 5 : myxPosition
+			newx = myxPosition - 5 >= 0 ? myxPosition - 5 : myxPosition
 			setxPosition(newx)
 			setyPosition(myyPosition)
 			client.send(JSON.stringify({type: 'userMoved', position: [myxPosition-5, myyPosition]}))
@@ -74,9 +73,8 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 		case 38:
 			e.preventDefault()
 
-			canvas.width = canvas.width;
 			// up key pressed
-			newy = myyPosition - 5 > 0 ? myyPosition - 5 : myyPosition
+			newy = myyPosition - 5 >= 0 ? myyPosition - 5 : myyPosition
 
 			setxPosition(myxPosition)
 			setyPosition(newy)
@@ -85,9 +83,8 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 		case 39:
 			e.preventDefault()
 
-			canvas.width = canvas.width;
 			// right key pressed
-			newx = myxPosition + 5 < canvas.width ? myxPosition + 5 : myxPosition
+			newx = myxPosition + 15 <= canvas.width ? myxPosition + 5 : myxPosition
 
 			setxPosition(newx)
 			setyPosition(myyPosition)
@@ -95,11 +92,8 @@ const Canvas = ({users, currentUser, client, gameState}) => {
 			break;
 		case 40:
 			e.preventDefault()
-
-			canvas.width = canvas.width;
-
 			// down key pressed
-			newy = myyPosition + 5 < canvas.width ? myyPosition + 5 : myyPosition
+			newy = myyPosition + 5 <= canvas.height-10 ? myyPosition + 5 : myyPosition
 
 			setxPosition(myxPosition)
 			setyPosition(newy)

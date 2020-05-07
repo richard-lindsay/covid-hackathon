@@ -233,7 +233,7 @@ wsServer.on('request', (request) => {
 const sendUpdate = (messageType, removeRoles = true) => {
 
     let usersResponse = users
-    if(removeRoles = true) {
+    if(removeRoles) {
         usersResponse = removeRole(users)
     }
     Object.keys(clients).map((client) => {

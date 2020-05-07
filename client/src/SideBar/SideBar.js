@@ -20,9 +20,19 @@ const SideBar = ({users, currentUser, handleStartGame= () => {}, gameState, clie
 	}
 
 	const handleLynch = () => {
-		client.send(JSON.stringify({type: 'villagerLynch', toLynch: currentUser.closestUser}))
-
+		const majority = Math.ceil(Object.keys(users).length/2.0)
+		let votes = 0
+		users.forEach(user => 
+			{ if (user.closestUser === currentUser.closestUser) votes += 1
+			}
+		)
+		if (votes >= majority){
+			client.send(JSON.stringify({type: 'villagerLynch', toLynch: currentUser.closestUser}))
+		} else {
+			window.alert("You need a majority vote!")
+		}
 	}
+
 	if (gameState.toLowerCase().includes(currentUser.role.substring(0,3))  && 
 		gameState.includes('CHOOSE') && currentUser.status !== 'alive' && currentUser.role !== 'mafia') {
 			setTimeout(() => {
