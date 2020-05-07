@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import Login from './Login/Login'
 import Header from './Header/Header'
 import Game from './Game/Game'
-
+import Rules from './Rules/Rules.js'
 import 'medium-editor/dist/css/medium-editor.css';
 import 'medium-editor/dist/css/themes/default.css';
 import './App.css';
@@ -116,6 +116,7 @@ class App extends Component {
 						? <Game shouldBeVisible={shouldBeVisible} client={client} /> 
 						: <Login logInUser={this.logInUser} />}
 					</div>
+					<Rules />
 					<Modal show={this.state.showModal} message={this.state.message} />
 					</>
 			);

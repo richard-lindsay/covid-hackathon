@@ -1,10 +1,8 @@
 import styled from "styled-components";
 
-import {headerHeight} from '../Header/styles.js'
-
 export const LoginBox = styled.div `
 	background-color: #fff;
-	margin: 30px auto auto auto;
+	margin: 30px auto;
 	padding: 50px 60px;
 	width: 500px;
 `
@@ -12,7 +10,6 @@ export const Login = styled.div `
 	width: 100%;
 `
 export const AccountPage = styled.div `
-	height: calc(100vh - ${headerHeight});
 	width: 100%;
 	overflow-y: auto;
 	background: #eee;
@@ -39,7 +36,4 @@ export const Heading = styled(Sub)`
 font-size: 20px
 text-transform: uppercase;
 font-weight: 700;
-`
-
-export const Rules = styled.div `
 `

@@ -2,6 +2,7 @@ import React from 'react'
 import Canvas from '../Canvas/Canvas'
 import SideBar from '../SideBar/SideBar'
 import GameOver from '../GameOver/GameOver'
+import img from './canvas.jpeg';
 
 import * as Styled from './styles.js'
 import { connect } from 'react-redux'
@@ -18,7 +19,7 @@ const Game = ({ client, shouldBeVisible, gameState}) => {
 			: <> {shouldBeVisible
 				? <Canvas client={client} />
 				: <Styled.NightContainer>
-						<Styled.Night />
+						<Styled.Night src={img}/>
 					</Styled.NightContainer>
 					}
 					
